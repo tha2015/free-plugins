@@ -1,0 +1,1 @@
+D:\programs\appengine-java-sdk-1.6.1\bin\appcfg.cmd vacuum_indexes target\javasourceattacher

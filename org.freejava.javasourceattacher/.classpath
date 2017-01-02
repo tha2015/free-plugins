@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src/"/>
+	<classpathentry exported="true" kind="lib" path="lib/json-lib-2.4-jdk15.jar"/>
+	<classpathentry kind="lib" path="lib/ezmorph-1.0.6.jar" sourcepath="C:/Documents and Settings/Thai Ha/.ivy2/cache/net.sf.ezmorph/ezmorph/sources/ezmorph-1.0.6-sources.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections-3.2.1.jar" sourcepath="C:/Documents and Settings/Thai Ha/.ivy2/cache/commons-collections/commons-collections/sources/commons-collections-3.2.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/commons-beanutils-1.8.3.jar" sourcepath="C:/Users/Thai/.sourceattacher/commons-beanutils-1.8.3-sources.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.5.jar" sourcepath="C:/Documents and Settings/Thai Ha/.m2/repository/commons-codec/commons-codec/1.5/commons-codec-1.5-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://rl-competition.googlecode.com/svn/trunk/2008/private/Proving/commons-codec-1.3/docs/api/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="lib/commons-logging-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsr305.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/guava-18.0.jar" sourcepath="C:/Documents and Settings/Thai Ha/.m2/repository/com/google/guava/guava/18.0/guava-18.0-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-compress-1.3.jar" sourcepath="C:/Documents and Settings/Thai Ha/.m2/repository/org/apache/commons/commons-compress/1.3/commons-compress-1.3-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-validator-1.3.1.jar" sourcepath="C:/Documents and Settings/Thai Ha/.m2/repository/commons-validator/commons-validator/1.3.1/commons-validator-1.3.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/oro-2.0.8.jar" sourcepath="C:/Documents and Settings/Thai Ha/.sourceattacher/oro-2.0.8-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-io-2.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/cvsclient-20060125.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/ganymed-ssh2-build210.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/plexus-utils-3.0.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/groovy-all-1.7.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/JavaEWAH-0.5.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsch-0.1.46.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-api-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-accurev-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-bazaar-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-clearcase-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-cvs-commons-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-cvsexe-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-cvsjava-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-git-commons-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-gitexe-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-hg-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-integrity-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-jazz-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-jgit-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-local-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-perforce-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-starteam-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-svn-commons-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-svnexe-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-synergy-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-tfs-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-vss-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/mksapi-jar-4.10.9049.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.jgit-3.2.0.201312181205-r.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/ant.jar" sourcepath="C:/Users/tha/.sourceattacher/ant-1.9.4-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/nexus-indexer-lucene-model-2.9.2-01.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/nexus-restlet1x-model-2.9.2-01.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

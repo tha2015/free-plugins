@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Java Source Attacher Tests
+Bundle-SymbolicName: org.freejava.javasourceattachertests
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.freejava.javasourceattacher;bundle-version="1.0.0",
+ org.junit;bundle-version="4.8.2"
+Bundle-ClassPath: lib/bcprov-jdk15-145.jar,
+ lib/commons-codec-1.5.jar,
+ lib/commons-io-1.4.jar,
+ lib/commons-lang-2.4.jar,
+ .

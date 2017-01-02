@@ -1,0 +1,520 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.freejava</groupId>
+  <artifactId>javasourceattacher</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spring.version>3.1.0.RELEASE</spring.version>
+  </properties>
+
+  <prerequisites>
+    <maven>3.1.0</maven>
+  </prerequisites>
+
+  <dependencies>
+    <!-- Unit test -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- Test Dependencies -->
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-testing</artifactId>
+      <version>1.9.19</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-api-stubs</artifactId>
+      <version>1.9.19</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.test</artifactId>
+      <version>${spring.version}</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>com.springsource.org.apache.commons.logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+	<dependency>
+	  <groupId>org.apache.httpcomponents</groupId>
+	  <artifactId>httpclient</artifactId>
+	  <version>4.3.6</version>
+      <scope>test</scope>
+	</dependency>
+
+    <!-- Web server APIs -->
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-servlet_2.5_spec</artifactId>
+      <version>1.2</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jsp_2.1_spec</artifactId>
+      <version>1.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-el_1.0_spec</artifactId>
+      <version>1.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- embedded JSTL -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+
+    <!--
+      Data persistence APIs: JPA and JDO.
+    -->
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jpa_3.0_spec</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.jdo</groupId>
+      <artifactId>jdo2-api</artifactId>
+      <version>2.3-eb</version>
+      <scope>runtime</scope>
+      <exclusions>
+        <exclusion><!-- Use geronimo-jta_1.1_spec instead -->
+          <groupId>javax.transaction</groupId>
+          <artifactId>transaction-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jta_1.1_spec</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-core</artifactId>
+      <version>1.1.5</version>
+      <scope>runtime</scope>
+      <exclusions>
+        <exclusion><!-- Use geronimo-jta_1.1_spec instead -->
+          <groupId>javax.transaction</groupId>
+          <artifactId>transaction-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-jpa</artifactId>
+      <version>1.1.5</version>
+      <scope>runtime</scope>
+      <exclusions>
+        <exclusion><!-- Use geronimo-jpa_3.0_spec instead -->
+          <groupId>javax.persistence</groupId>
+          <artifactId>persistence-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- Google App Engine persistence runtime -->
+    <dependency>
+      <groupId>com.google.appengine.orm</groupId>
+      <artifactId>datanucleus-appengine</artifactId>
+      <version>1.0.10</version>
+      <scope>runtime</scope>
+    </dependency>
+
+
+    <!--
+      JSR 107 Cache
+    -->
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-jsr107cache</artifactId>
+      <version>1.9.19</version>
+      <scope>runtime</scope>
+    </dependency>
+  <dependency>
+    <groupId>net.sf.jsr107cache</groupId>
+    <artifactId>jsr107cache</artifactId>
+    <version>1.1</version>
+  </dependency>
+
+    <!-- Google App Engine API -->
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-api-1.0-sdk</artifactId>
+      <version>1.9.19</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-api-labs</artifactId>
+      <version>1.9.19</version>
+    </dependency>
+
+    <!-- Logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>1.5.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>log4j-over-slf4j</artifactId>
+      <version>1.5.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jdk14</artifactId>
+      <version>1.5.6</version>
+    </dependency>
+
+    <!-- Spring framework, remove all commons-logging b/c we have jcl-over-slf4j -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.aop</artifactId>
+      <version>${spring.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>com.springsource.org.apache.commons.logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>com.springsource.org.aspectj.weaver</artifactId>
+      <version>1.6.8.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.aspects</artifactId>
+      <version>${spring.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>com.springsource.org.apache.commons.logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.beans</artifactId>
+      <version>${spring.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>com.springsource.org.apache.commons.logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.context</artifactId>
+      <version>${spring.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>com.springsource.org.apache.commons.logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.context.support</artifactId>
+      <version>${spring.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>com.springsource.org.apache.commons.logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.core</artifactId>
+      <version>${spring.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>com.springsource.org.apache.commons.logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.expression</artifactId>
+      <version>${spring.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>com.springsource.org.apache.commons.logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.orm</artifactId>
+      <version>${spring.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>com.springsource.org.apache.commons.logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.web</artifactId>
+      <version>${spring.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>com.springsource.org.apache.commons.logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.web.servlet</artifactId>
+      <version>${spring.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>com.springsource.org.apache.commons.logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+
+    <!-- Jackson JSON Mapper -->
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.6.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <finalName>${project.artifactId}</finalName>
+    <outputDirectory>war/WEB-INF/classes</outputDirectory>
+
+    <plugins>
+
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <warSourceDirectory>${basedir}/war</warSourceDirectory>
+        </configuration>
+      </plugin>
+
+
+      <!-- JDK6 Compiler  -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.datanucleus</groupId>
+        <artifactId>maven-datanucleus-plugin</artifactId>
+        <version>1.1.4</version>
+        <configuration>
+          <verbose>true</verbose>
+          <api>JPA</api>
+          <mappingIncludes>**/*.jdo, **/model/**.class</mappingIncludes>
+          <enhancerName>ASM</enhancerName>
+          <fork>true</fork>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>enhance</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.datanucleus</groupId>
+            <artifactId>datanucleus-jpa</artifactId>
+            <version>1.1.5</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <!-- Generate Eclipse project files -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <version>2.9</version>
+        <configuration>
+<!--           <excludes>GAE_CONTAINER already have these jars
+            <exclude>org.datanucleus:datanucleus-core</exclude>
+            <exclude>org.datanucleus:datanucleus-jpa</exclude>
+            <exclude>com.google.appengine:datanucleus-appengine</exclude>
+            <exclude>org.apache.geronimo.specs:geronimo-servlet_2.5_spec</exclude>
+            <exclude>org.apache.geronimo.specs:geronimo-jsp_2.1_spec</exclude>
+            <exclude>org.apache.geronimo.specs:geronimo-el_1.0_spec</exclude>
+            <exclude>org.apache.geronimo.specs:geronimo-jpa_3.0_spec</exclude>
+            <exclude>org.apache.geronimo.specs:geronimo-jta_1.1_spec</exclude>
+            <exclude>javax.jdo:jdo2-api</exclude>
+            <exclude>com.google.appengine:appengine-api-1.0-sdk</exclude>
+            <exclude>com.google.appengine:appengine-api-labs</exclude>
+            <exclude>com.google.appengine:appengine-jsr107cache</exclude>
+            <exclude>net.sf.jsr107cache:jsr107cache</exclude>
+          </excludes> -->
+          <downloadSources>true</downloadSources>
+          <buildOutputDirectory>${basedir}/war/WEB-INF/classes</buildOutputDirectory>
+          <wtpversion>1.5</wtpversion>
+          <wtpapplicationxml>true</wtpapplicationxml>
+          <additionalProjectnatures>
+            <projectnature>
+              com.google.appengine.eclipse.core.gaeNature
+            </projectnature>
+            <projectnature>
+              com.google.gdt.eclipse.core.webAppNature
+            </projectnature>
+            <projectnature>
+                org.springframework.ide.eclipse.core.springnature
+            </projectnature>
+          </additionalProjectnatures>
+          <additionalBuildcommands>
+            <buildcommand>
+              com.google.appengine.eclipse.core.enhancerbuilder
+            </buildcommand>
+            <buildcommand>
+              com.google.appengine.eclipse.core.projectValidator
+            </buildcommand>
+            <buildcommand>
+              com.google.gdt.eclipse.core.webAppProjectValidator
+            </buildcommand>
+            <buildcommand>
+                org.springframework.ide.eclipse.core.springbuilder
+            </buildcommand>
+          </additionalBuildcommands>
+          <additionalProjectFacets>
+              <jpt.jpa>1.0</jpt.jpa>
+          </additionalProjectFacets>
+          <classpathContainers>
+            <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
+            <!-- <classpathContainer>com.google.appengine.eclipse.core.GAE_CONTAINER</classpathContainer> -->
+          </classpathContainers>
+          <additionalConfig>
+              <file>
+                  <name>.springBeans</name>
+                  <content>
+<![CDATA[<beansProjectDescription>
+    <version>1</version>
+    <configSuffixes>
+        <configSuffix>xml</configSuffix>
+    </configSuffixes>
+    <enableImports>false</enableImports>
+    <configs>
+        <config>src/main/resources/applicationContext.xml</config>
+    </configs>
+    <configSets>
+        <configSet>
+            <name>Main Config Set</name>
+            <allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+            <incomplete>false</incomplete>
+            <configs>
+                <config>src/main/resources/applicationContext.xml</config>
+            </configs>
+        </configSet>
+    </configSets>
+</beansProjectDescription>
+]]>
+                  </content>
+              </file>
+          </additionalConfig>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <phase>install </phase>
+            <configuration>
+              <tasks>
+                <echo message="Will download Google App Engine for Java and run appcfg tool to upload the application." />
+                <mkdir dir="${java.io.tmpdir}/gae"/>
+                <get src="http://repo.maven.apache.org/maven2/com/google/appengine/appengine-java-sdk/1.9.19/appengine-java-sdk-1.9.19.zip" dest="${java.io.tmpdir}/gae/appengine-java-sdk-1.9.19.zip" verbose="yes" usetimestamp="true"/>
+                <unzip src="${java.io.tmpdir}/gae/appengine-java-sdk-1.9.19.zip" dest="${java.io.tmpdir}/gae" overwrite="false"/>
+                <java fork="false" classname="com.google.appengine.tools.admin.AppCfg">
+                  <sysproperty key="appengine.sdk.root" value="${java.io.tmpdir}/gae/appengine-java-sdk-1.9.19"/>
+                  <classpath>
+                    <fileset dir="${java.io.tmpdir}/gae/appengine-java-sdk-1.9.19">
+                      <include name="lib/appengine-tools-api.jar"/>
+                    </fileset>
+                  </classpath>
+                  <arg value="update"/>
+                  <arg value="${basedir}/target/${project.artifactId}"/>
+                </java>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+            <plugin>
+                <groupId>com.google.appengine</groupId>
+                <artifactId>appengine-maven-plugin</artifactId>
+                <version>1.9.19</version>
+                <configuration>
+                    <enableJarClasses>false</enableJarClasses>
+                    <!-- Comment in the below snippet to bind to all IPs instead of just localhost -->
+                    <!-- address>0.0.0.0</address>
+                    <port>8080</port -->
+                    <!-- Comment in the below snippet to enable local debugging with a remove debugger
+                         like those included with Eclipse or IntelliJ -->
+                    <jvmFlags>
+                      <jvmFlag>-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n</jvmFlag>
+                    </jvmFlags>
+                </configuration>
+            </plugin>
+    </plugins>
+  </build>
+  <repositories>
+    <repository>
+      <id>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</id>
+      <url>http://repository.springsource.com/maven/bundles/release</url>
+    </repository>
+    <repository>
+      <id>SpringSource Enterprise Bundle Repository - External Bundle Releases</id>
+      <url>http://repository.springsource.com/maven/bundles/external</url>
+    </repository>
+  </repositories>
+</project>

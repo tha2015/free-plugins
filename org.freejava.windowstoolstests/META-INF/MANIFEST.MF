@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Windows Tools Tests
+Bundle-SymbolicName: org.freejava.windowstoolstests
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.freejava.windowstools;bundle-version="1.0.0",
+ org.junit;bundle-version="4.8.2"
+Bundle-ClassPath: .

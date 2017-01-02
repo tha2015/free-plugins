@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+
+    <!-- ========================= RESOURCE DEFINITIONS ========================= -->
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean" p:persistenceUnitName="pu"/>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" p:entityManagerFactory-ref="entityManagerFactory" />
+
+    <!-- ========================= BUSINESS OBJECT DEFINITIONS ========================= -->
+
+    <!--
+        Activates various annotations to be detected in bean classes: Spring's
+        @Required and @Autowired, as well as JSR 250's @PostConstruct,
+        @PreDestroy and @Resource (if available) and JPA's @PersistenceContext
+        and @PersistenceUnit (if available).
+    -->
+    <context:annotation-config />
+
+    <!--
+        Instruct Spring to perform declarative transaction management
+        automatically on annotated classes.
+    -->
+    <tx:annotation-driven />
+
+    <!--
+        PostProcessors to perform exception translation on @Repository classes (from native
+        exceptions such as JPA PersistenceExceptions to Spring's DataAccessException hierarchy).
+    -->
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+    <!--
+      Autodetected POJOs labeled with the @Controller/@Service/@Repositoty/@Component annotation.
+    -->
+    <context:component-scan base-package="org.freejava" />
+
+    <mvc:annotation-driven />
+
+    <bean id="methodLoggingAdvice" class="org.freejava.util.MethodLoggingAdvice"/>
+    <aop:config>
+      <aop:advisor advice-ref="methodLoggingAdvice" pointcut="execution(* org.freejava.manager.*.*(..))" order="1"/>
+    </aop:config>
+
+</beans>

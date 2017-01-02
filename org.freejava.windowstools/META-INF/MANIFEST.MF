@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Windows Tools
+Bundle-SymbolicName: org.freejava.windowstools; singleton:=true
+Bundle-Version: 1.0.2
+Bundle-Vendor: FreeJava
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime;visibility:=reexport
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ClassPath: lib/commons-collections-3.2.1.jar,
+ lib/commons-beanutils-1.8.3.jar,
+ lib/commons-codec-1.5.jar,
+ lib/commons-logging-1.1.1.jar,
+ lib/jna.jar,
+ lib/platform.jar,
+ lib/ant-1.8.4.jar,
+ lib/ant-launcher-1.8.4.jar,
+ lib/commons-exec-1.1.jar,
+ lib/commons-io-2.0.1.jar,
+ lib/commons-lang-2.6.jar,
+ lib/groovy-all-2.1.5.jar,
+ lib/guava-r09.jar,
+ .
+Export-Package: org.freejava.windowstools

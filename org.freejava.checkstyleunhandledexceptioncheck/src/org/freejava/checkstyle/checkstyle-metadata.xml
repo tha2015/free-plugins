@@ -1,0 +1,12 @@
+<!DOCTYPE checkstyle-metadata PUBLIC
+"-//eclipse-cs//DTD Check Metadata 1.1//EN"
+"http://eclipse-cs.sourceforge.net/dtds/checkstyle-metadata_1_1.dtd">
+<checkstyle-metadata>
+	<rule-group-metadata name="Coding Problems"
+		priority="900">
+		<rule-metadata name="Unhandled Exception" internal-name="UnhandledException" parent="TreeWalker">
+			<alternative-name internal-name="org.freejava.checkstyle.UnhandledExceptionCheck" />
+			<description>Checks for unhandled exceptions.</description>
+		</rule-metadata>
+	</rule-group-metadata>
+</checkstyle-metadata>

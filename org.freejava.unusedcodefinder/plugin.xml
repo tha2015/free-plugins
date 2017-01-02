@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="FreeJava Tools Category"
+            id="org.freejava.tools.commands.category">
+      </category>
+      <command
+            categoryId="org.freejava.tools.commands.category"
+            id="org.freejava.tools.commands.findUnusedCodeCommand"
+            name="Find Unused Code">
+      </command>
+
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.freejava.tools.handlers.FindUnusedCodeHandler"
+            commandId="org.freejava.tools.commands.findUnusedCodeCommand">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+   	  <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+     		<command commandId="org.freejava.tools.commands.findUnusedCodeCommand"/>
+   	  </menuContribution>
+   </extension>
+</plugin>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature id="org.freejava.javasourceattacher.feature" />
+   <feature id="org.freejava.javaexamplessearch.feature" />
+   <feature id="org.freejava.dependencyviewer.feature" />
+   <feature id="org.freejava.windowstools.feature" />
+   <feature id="org.freejava.projectimpport.feature" />
+</site>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<fragment>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="FreeJava Tools Category"
+            id="org.freejava.tools.commands.category">
+      </category>
+      <command
+            categoryId="org.freejava.tools.commands.category"
+            id="org.freejava.tools.commands.javaSourceAttacherHandlerCommand"
+            name="Attach Java Source">
+      </command>
+
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.freejava.tools.handlers.JavaSourceAttacherHandler"
+            commandId="org.freejava.tools.commands.javaSourceAttacherHandlerCommand">
+		<enabledWhen>
+		  <with variable="selection">
+		    <iterate ifEmpty="false" operator="or">
+		      <or>
+		        <instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"></instanceof>
+		        <instanceof value="org.eclipse.jdt.core.IJavaProject"></instanceof>
+		      </or>
+		    </iterate>
+		  </with>
+		</enabledWhen>
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+   	  <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+     		<command commandId="org.freejava.tools.commands.javaSourceAttacherHandlerCommand"/>
+   	  </menuContribution>
+
+   </extension>
+
+</fragment>

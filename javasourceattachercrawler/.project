@@ -1,0 +1,22 @@
+<projectDescription>
+  <name>javasourceattachercrawler</name>
+  <comment>NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+  <projects/>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+    <buildCommand>
+      <name>edu.umd.cs.findbugs.plugin.eclipse.findbugsBuilder</name>
+    </buildCommand>
+    <buildCommand>
+      <name>com.jutils.lint4j.core.Builder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+    <nature>org.eclipse.jdt.groovy.core.groovyNature</nature>
+    <nature>edu.umd.cs.findbugs.plugin.eclipse.findbugsNature</nature>
+    <nature>com.jutils.lint4j.core.Nature</nature>
+  </natures>
+</projectDescription>
