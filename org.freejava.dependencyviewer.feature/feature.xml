@@ -2,7 +2,7 @@
 <feature
       id="org.freejava.dependencyviewer.feature"
       label="Java Dependency Viewer Feature"
-      version="1.0.0.3"
+      version="1.0.0.4"
       provider-name="Thai Ha">
 
    <description url="http://svn.codespot.com/a/eclipselabs.org/free-plugins/">
