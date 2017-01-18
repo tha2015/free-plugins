@@ -1,7 +1,6 @@
 package org.freejava.tools.handlers;
 
 import java.io.File;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -27,10 +26,16 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.freejava.dependency.builder.ClassGraphBuilder;
+import org.freejava.dependency.builder.Name;
+import org.freejava.dependency.builder.impl.Class2PackageGraphTransformerImpl;
+import org.freejava.dependency.builder.impl.ClassGraphBuilderImpl;
+import org.freejava.dependency.builder.impl.RetainOnlyFromNodesGraphTransformerImpl;
+import org.freejava.dependency.builder.impl.RetainOnlySelectedNamesGraphTransformerImpl;
+import org.freejava.dependency.graph.Graph;
+import org.freejava.dependency.parser.maven.MavenClassParserImpl;
 import org.freejava.tools.Activator;
 import org.freejava.tools.handlers.dependency.DependencyView;
-
-import com.jeantessier.dependency.Node;
 
 /**
  * Handler class for View Class/Package Dependency action.
@@ -61,17 +66,35 @@ public class ViewDependencyHandler extends AbstractHandler {
 //	 * <li><code>org.eclipse.jdt.core.IJavaProject</code></li>
         try {
             boolean isViewPackageDependency = event.getCommand().getId().equals("org.freejava.tools.commands.viewPackageDependencyCommand");
-            IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-            Set<String> names = new HashSet<String>();
-            Set<String> interfaces = new HashSet<String>();
-            Set<File> files = new HashSet<File>();
-            findFilterNamesAndJarClassFiles(isViewPackageDependency, structuredSelection, names, interfaces, files);
 
-            Collection<Node> graphNodes;
+            Set<String> names = new HashSet<String>();
+            Set<File> files = new HashSet<File>();
+            findFilterNamesAndJarClassFiles(isViewPackageDependency, (IStructuredSelection) selection, names, files);
+
+            Graph<Name> graphNodes;
             if (isViewPackageDependency) {
-                graphNodes = new DependencyFinder().getPackageDependency(files, names);
+                ClassGraphBuilder builder = new ClassGraphBuilderImpl(new MavenClassParserImpl());
+                    Graph<Name> classG = builder.build(files);
+
+                    Graph<Name> fromClassG =  new RetainOnlyFromNodesGraphTransformerImpl<Name>().transform(classG);
+
+                    Graph<Name> packageG = new Class2PackageGraphTransformerImpl().transform(classG);
+
+                    packageG = new RetainOnlySelectedNamesGraphTransformerImpl(names).transform(packageG);
+
+                    graphNodes = packageG;
+
             } else {
-                graphNodes = new DependencyFinder().getClassDependency(files, names);
+
+                ClassGraphBuilder builder = new ClassGraphBuilderImpl(new MavenClassParserImpl());
+
+                Graph<Name> classG = builder.build(files);
+
+                Graph<Name> fromClassG =  new RetainOnlyFromNodesGraphTransformerImpl<Name>().transform(classG);
+
+                fromClassG = new RetainOnlySelectedNamesGraphTransformerImpl(names).transform(fromClassG);
+
+                graphNodes = fromClassG;
             }
 
             IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
@@ -94,7 +117,7 @@ public class ViewDependencyHandler extends AbstractHandler {
                     Activator.logError("Cannot show view " + DependencyView.ID, e);
                 }
             }
-            dependencyView.setDependencyInfo(graphNodes, interfaces);
+            dependencyView.setDependencyInfo(graphNodes/*, interfaces*/);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,8 +125,9 @@ public class ViewDependencyHandler extends AbstractHandler {
         return null;
     }
 
+
     private void findFilterNamesAndJarClassFiles(boolean isViewPackageDependency,
-            IStructuredSelection structuredSelection, Set<String> names, Set<String> interfaces,
+            IStructuredSelection structuredSelection, Set<String> names/*, Set<String> interfaces*/,
             Set<File> files) throws JavaModelException {
         for (Iterator<?> iterator = structuredSelection.iterator(); iterator.hasNext();) {
             IJavaElement aSelection = (IJavaElement) iterator.next();
@@ -179,7 +203,7 @@ public class ViewDependencyHandler extends AbstractHandler {
                 if (aSelection instanceof IClassFile) {
                     IClassFile clf = (IClassFile) aSelection;
                     names.add(clf.getType().getFullyQualifiedName());
-                    if (clf.getType().isInterface()) interfaces.add(clf.getType().getFullyQualifiedName());
+                    //if (clf.getType().isInterface()) interfaces.add(clf.getType().getFullyQualifiedName());
                     IPackageFragment pkg = (IPackageFragment) clf.getParent();
                     IPackageFragmentRoot pkgRoot = ((IPackageFragmentRoot)pkg.getParent());
                     File file;
@@ -193,7 +217,7 @@ public class ViewDependencyHandler extends AbstractHandler {
                     ICompilationUnit unit = (ICompilationUnit) aSelection;
                     for(IType type : unit.getTypes()){
                         names.add(type.getFullyQualifiedName());
-                        if (type.isInterface()) interfaces.add(type.getFullyQualifiedName());
+                        //if (type.isInterface()) interfaces.add(type.getFullyQualifiedName());
                     }
                     IRegion region = JavaCore.newRegion();
                     region.add(aSelection);
@@ -208,13 +232,13 @@ public class ViewDependencyHandler extends AbstractHandler {
                             ICompilationUnit unit = (ICompilationUnit) e;
                             for(IType type : unit.getTypes()){
                                 names.add(type.getFullyQualifiedName());
-                                if (type.isInterface()) interfaces.add(type.getFullyQualifiedName());
+                                //if (type.isInterface()) interfaces.add(type.getFullyQualifiedName());
                             }
                         }
                         if (e instanceof IClassFile) {
                             IClassFile clf = (IClassFile) e;
                             names.add(clf.getType().getFullyQualifiedName());
-                            if (clf.getType().isInterface()) interfaces.add(clf.getType().getFullyQualifiedName());
+                            //if (clf.getType().isInterface()) interfaces.add(clf.getType().getFullyQualifiedName());
                         }
                     }
                     if ((((IPackageFragment)aSelection).getKind() == IPackageFragmentRoot.K_BINARY)) {
@@ -243,13 +267,13 @@ public class ViewDependencyHandler extends AbstractHandler {
                                 ICompilationUnit unit = (ICompilationUnit) e2;
                                 for(IType type : unit.getTypes()){
                                     names.add(type.getFullyQualifiedName());
-                                    if (type.isInterface()) interfaces.add(type.getFullyQualifiedName());
+                                    //if (type.isInterface()) interfaces.add(type.getFullyQualifiedName());
                                 }
                             }
                             if (e2 instanceof IClassFile) {
                                 IClassFile clf = (IClassFile) e2;
                                 names.add(clf.getType().getFullyQualifiedName());
-                                if (clf.getType().isInterface()) interfaces.add(clf.getType().getFullyQualifiedName());
+                                //if (clf.getType().isInterface()) interfaces.add(clf.getType().getFullyQualifiedName());
                             }
                         }
                     }
@@ -277,13 +301,13 @@ public class ViewDependencyHandler extends AbstractHandler {
                                 ICompilationUnit unit = (ICompilationUnit) e2;
                                 for(IType type : unit.getTypes()){
                                     names.add(type.getFullyQualifiedName());
-                                    if (type.isInterface()) interfaces.add(type.getFullyQualifiedName());
+                                    //if (type.isInterface()) interfaces.add(type.getFullyQualifiedName());
                                 }
                             }
                             if (e2 instanceof IClassFile) {
                                 IClassFile clf = (IClassFile) e2;
                                 names.add(clf.getType().getFullyQualifiedName());
-                                if (clf.getType().isInterface()) interfaces.add(clf.getType().getFullyQualifiedName());
+                                //if (clf.getType().isInterface()) interfaces.add(clf.getType().getFullyQualifiedName());
                             }
                         }
                     }

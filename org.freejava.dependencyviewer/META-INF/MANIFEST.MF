@@ -12,9 +12,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.zest.layouts;resolution:=optional
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Bundle-ClassPath: lib/DependencyFinder.jar,
- lib/guava.jar,
- lib/jakarta-oro.jar,
- lib/log4j.jar,
+Bundle-ClassPath: lib/asm-5.0.2.jar,
+ lib/commons-io-2.5.jar,
+ lib/commons-lang3-3.5.jar,
+ lib/commons-logging-1.2.jar,
+ lib/maven-dependency-analyzer-1.6.jar,
  .
 Bundle-Vendor: Thai Ha

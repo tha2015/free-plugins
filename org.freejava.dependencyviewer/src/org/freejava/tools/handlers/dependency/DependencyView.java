@@ -1,9 +1,7 @@
 package org.freejava.tools.handlers.dependency;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -20,19 +18,19 @@ import org.eclipse.zest.core.viewers.IGraphContentProvider;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
+import org.freejava.dependency.builder.Name;
+import org.freejava.dependency.builder.impl.RemoveNodesGraphTransformerImpl;
+import org.freejava.dependency.graph.Edge;
+import org.freejava.dependency.graph.Graph;
+import org.freejava.dependency.graph.Vertex;
 import org.freejava.tools.Activator;
-import org.freejava.tools.handlers.DependencyFinder;
 
-import com.jeantessier.dependency.ClassNode;
-import com.jeantessier.dependency.Node;
-import com.jeantessier.dependency.PackageNode;
 
 
 public class DependencyView extends ViewPart {
 
     public static final String ID = "org.freejava.tools.dependency";
     protected GraphViewer viewer;
-    protected Set<String> interfaces;
 
     static class MyContentProvider implements IGraphContentProvider {
 
@@ -44,16 +42,20 @@ public class DependencyView extends ViewPart {
         @SuppressWarnings("unchecked")
         public Object[] getElements(Object input) {
             Object[] result;
-            if (input != null && input instanceof Collection) {
-                result = getDependencyArrows((Collection<Node>) input);
+            if (input != null && input instanceof Graph) {
+                result = getDependencyArrows((Graph<Name>) input);
             } else {
                 result = new Object[0];
             }
             return result;
         }
 
-        private Object[] getDependencyArrows(Collection<Node> input) {
-            List<Object[]> arrows = new DependencyFinder().getDependencyEdges(input);
+        private Object[] getDependencyArrows(Graph<Name> g) {
+
+            List<Object[]> arrows = new ArrayList<Object[]>();
+            for (Edge<Name> e : g.getEdges()) {
+                arrows.add(new Object[] {e.getFrom(), e.getTo()});
+            }
             return arrows.toArray();
         }
 
@@ -83,15 +85,13 @@ public class DependencyView extends ViewPart {
         public Image getImage(Object element) {
 
             Image image = null;
-            if (element instanceof Node) {
-                Node node = (Node) element;
-                if (node instanceof ClassNode) {
-                    if (dependencyView.getInterfaces() != null && dependencyView.getInterfaces().contains(node.getName())) {
+            if (element instanceof Vertex) {
+                Vertex<Name> node = (Vertex<Name>) element;
+                if (node.getNode().isClass()) {
+                    image = Activator.getDefault().getImageRegistry().get("class");
+                } else if (node.getNode().isInterface()) {
                         image = Activator.getDefault().getImageRegistry().get("interface");
-                    } else {
-                        image = Activator.getDefault().getImageRegistry().get("class");
-                    }
-                } else if (node instanceof PackageNode) {
+                } else {
                     image = Activator.getDefault().getImageRegistry().get("package");
                 }
             }
@@ -100,12 +100,12 @@ public class DependencyView extends ViewPart {
 
         public String getText(Object element) {
             String name = null;
-            if (element instanceof Node) {
-                Node node = (Node) element;
-                if (node.getName() == null || node.getName().equals("")) {
+            if (element instanceof Vertex) {
+                Vertex<Name> node = (Vertex<Name>) element;
+                if (node.getNode().getName() == null || node.getNode().getName().equals("")) {
                     name = "<default>";
                 } else {
-                    name = node.getName();
+                    name = node.getNode().getName();
                 }
             }
             return name;
@@ -131,29 +131,28 @@ public class DependencyView extends ViewPart {
             public void keyPressed(KeyEvent e) {
 
                 Object input = viewer.getInput();
-                if (input == null || !(input instanceof Collection)) return;
+                if (input == null || !(input instanceof Graph)) return;
 
-                Collection<Node> pkgs = (Collection<Node>) input;
+                Graph<Name> pkgs = (Graph<Name>) input;
 
                 if (e.keyCode == SWT.DEL) {
                     ISelection selection = viewer.getSelection();
                     List selectedItems = ((IStructuredSelection) selection).toList();
-                    List<Node> selectedPackages = new ArrayList<Node>();
+                    List<Vertex> selectedPackages = new ArrayList<Vertex>();
                     for (Object selectedItem : selectedItems) {
-                        if (selectedItem instanceof Node) {
-                            selectedPackages.add((Node) selectedItem);
+                        if (selectedItem instanceof Vertex) {
+                            selectedPackages.add((Vertex) selectedItem);
                         } else {
                             Object[] selectedArrow = (Object[]) selectedItem;
-                            Node pkg1 = (Node) selectedArrow[0];
-                            Node pkg2 = (Node) selectedArrow[1];
-                            pkg1.removeDependency(pkg2);
+                            Vertex pkg1 = (Vertex) selectedArrow[0];
+                            Vertex pkg2 = (Vertex) selectedArrow[1];
+                            selectedPackages.add(pkg1);
+                            selectedPackages.add(pkg2);
                         }
                     }
-                    for (Node pkg : pkgs) {
-                        pkg.removeDependencies(selectedPackages);
-                    }
-                    pkgs = new ArrayList<Node>(pkgs);
-                    pkgs.removeAll(selectedPackages);
+
+                    pkgs = new RemoveNodesGraphTransformerImpl(selectedPackages).transform(pkgs);
+
                     viewer.setInput(pkgs);
                 }
             }
@@ -169,14 +168,8 @@ public class DependencyView extends ViewPart {
 
     }
 
-    public Set<String> getInterfaces() {
-        return interfaces;
-    }
-
-
-    public void setDependencyInfo(Collection<Node> pkgs, Set<String> interfaces) {
-        this.interfaces = interfaces;
-        viewer.setInput(pkgs);
+    public void setDependencyInfo(Graph<Name> g) {
+        viewer.setInput(g);
         viewer.refresh();
 
 //		graph = new Graph(parent, SWT.NONE);
