@@ -26,11 +26,11 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.freejava.dependency.builder.ClassGraphBuilder;
 import org.freejava.dependency.builder.Name;
 import org.freejava.dependency.builder.impl.Class2PackageGraphTransformerImpl;
 import org.freejava.dependency.builder.impl.ClassGraphBuilderImpl;
-import org.freejava.dependency.builder.impl.RetainOnlyFromNodesGraphTransformerImpl;
+import org.freejava.dependency.builder.impl.RemoveSelfReferenceNodesGraphTransformerImpl;
+import org.freejava.dependency.builder.impl.RetainOnlyFromSelectedNamesGraphTransformerImpl;
 import org.freejava.dependency.builder.impl.RetainOnlySelectedNamesGraphTransformerImpl;
 import org.freejava.dependency.graph.Graph;
 import org.freejava.dependency.parser.maven.MavenClassParserImpl;
@@ -66,36 +66,15 @@ public class ViewDependencyHandler extends AbstractHandler {
 //	 * <li><code>org.eclipse.jdt.core.IJavaProject</code></li>
         try {
             boolean isViewPackageDependency = event.getCommand().getId().equals("org.freejava.tools.commands.viewPackageDependencyCommand");
+            boolean isViewOutboundPackageDependency = event.getCommand().getId().equals("org.freejava.tools.commands.viewOutboundPackageDependencyCommand");
+            boolean isViewClassDependency = event.getCommand().getId().equals("org.freejava.tools.commands.viewClassDependencyCommand");
+
+            boolean isViewPackages = isViewPackageDependency || isViewOutboundPackageDependency;
 
             Set<String> names = new HashSet<String>();
             Set<File> files = new HashSet<File>();
-            findFilterNamesAndJarClassFiles(isViewPackageDependency, (IStructuredSelection) selection, names, files);
+            findFilterNamesAndJarClassFiles(isViewPackages, (IStructuredSelection) selection, names, files);
 
-            Graph<Name> graphNodes;
-            if (isViewPackageDependency) {
-                ClassGraphBuilder builder = new ClassGraphBuilderImpl(new MavenClassParserImpl());
-                    Graph<Name> classG = builder.build(files);
-
-                    Graph<Name> fromClassG =  new RetainOnlyFromNodesGraphTransformerImpl<Name>().transform(classG);
-
-                    Graph<Name> packageG = new Class2PackageGraphTransformerImpl().transform(classG);
-
-                    packageG = new RetainOnlySelectedNamesGraphTransformerImpl(names).transform(packageG);
-
-                    graphNodes = packageG;
-
-            } else {
-
-                ClassGraphBuilder builder = new ClassGraphBuilderImpl(new MavenClassParserImpl());
-
-                Graph<Name> classG = builder.build(files);
-
-                Graph<Name> fromClassG =  new RetainOnlyFromNodesGraphTransformerImpl<Name>().transform(classG);
-
-                fromClassG = new RetainOnlySelectedNamesGraphTransformerImpl(names).transform(fromClassG);
-
-                graphNodes = fromClassG;
-            }
 
             IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 
@@ -117,12 +96,30 @@ public class ViewDependencyHandler extends AbstractHandler {
                     Activator.logError("Cannot show view " + DependencyView.ID, e);
                 }
             }
-            dependencyView.setDependencyInfo(graphNodes/*, interfaces*/);
+
+            final Graph<Name> graphNodes = buildGraph(isViewPackageDependency ? 1 : (isViewOutboundPackageDependency ? 2 : (isViewClassDependency ? 3 : 4)), names, files);
+            dependencyView.setDependencyInfo(graphNodes);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private Graph<Name> buildGraph(int type , Set<String> names, Set<File> files) throws Exception {
+        Graph<Name> graph;
+        Graph<Name> classes = new ClassGraphBuilderImpl(new MavenClassParserImpl()).build(files);
+        if (type == 1) { // inbound package dependencies
+            graph = new RetainOnlySelectedNamesGraphTransformerImpl(names).transform(new Class2PackageGraphTransformerImpl().transform(classes));
+        } else if (type == 2) { // outbound package dependencies
+            graph = new RetainOnlyFromSelectedNamesGraphTransformerImpl(names).transform(new Class2PackageGraphTransformerImpl().transform(classes));
+        } else if (type == 3) { // inbound class dependencies
+            graph =  new RetainOnlySelectedNamesGraphTransformerImpl(names).transform(classes);
+        } else { // outbound classes dependencies
+            graph = new RetainOnlyFromSelectedNamesGraphTransformerImpl(names).transform(classes);
+        }
+        graph = new RemoveSelfReferenceNodesGraphTransformerImpl<Name>().transform(graph);
+        return graph;
     }
 
 

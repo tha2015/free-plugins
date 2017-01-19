@@ -41,6 +41,7 @@ public class ClassGraphBuilderImpl implements ClassGraphBuilder {
                 InputStream is = new FileInputStream(f);
                 try {
                     classInfos.add(this.classParser.parse(is));
+                } catch (Exception ex) {
                 } finally {
                     IOUtils.closeQuietly(is);
                 }
@@ -54,6 +55,7 @@ public class ClassGraphBuilderImpl implements ClassGraphBuilder {
                       InputStream is = jarFile.getInputStream(entry);
                       try {
                           classInfos.add(this.classParser.parse(is));
+                      } catch (Exception ex) {
                       } finally {
                           IOUtils.closeQuietly(is);
                       }
@@ -66,6 +68,7 @@ public class ClassGraphBuilderImpl implements ClassGraphBuilder {
                     InputStream is = new FileInputStream(file);
                     try {
                         classInfos.add(this.classParser.parse(is));
+                    } catch (Exception ex) {
                     } finally {
                         IOUtils.closeQuietly(is);
                     }

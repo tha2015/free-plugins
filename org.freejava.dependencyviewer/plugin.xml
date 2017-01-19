@@ -15,13 +15,23 @@
       </command>
       <command
             categoryId="org.freejava.tools.commands.category"
+            id="org.freejava.tools.commands.viewOutboundPackageDependencyCommand"
+            name="View Outbound Package Dependency">
+      </command>
+      <command
+            categoryId="org.freejava.tools.commands.category"
             id="org.freejava.tools.commands.viewClassDependencyCommand"
             name="View Class Dependency">
       </command>
-
+      <command
+            categoryId="org.freejava.tools.commands.category"
+            id="org.freejava.tools.commands.viewOutboundClassDependencyCommand"
+            name="View Outbound Class Dependency">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
+
       <handler
             class="org.freejava.tools.handlers.ViewDependencyHandler"
             commandId="org.freejava.tools.commands.viewPackageDependencyCommand">
@@ -36,6 +46,21 @@
 		    </iterate>
 		  </with>
 		</enabledWhen>
+      </handler>
+      <handler
+            class="org.freejava.tools.handlers.ViewDependencyHandler"
+            commandId="org.freejava.tools.commands.viewOutboundPackageDependencyCommand">
+        <enabledWhen>
+          <with variable="selection">
+            <iterate ifEmpty="false" operator="or">
+              <or>
+                <instanceof value="org.eclipse.jdt.core.IPackageFragment"></instanceof>
+                <instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"></instanceof>
+                <instanceof value="org.eclipse.jdt.core.IJavaProject"></instanceof>
+              </or>
+            </iterate>
+          </with>
+        </enabledWhen>
       </handler>
       <handler
             class="org.freejava.tools.handlers.ViewDependencyHandler"
@@ -54,15 +79,38 @@
 		  </with>
 		</enabledWhen>
       </handler>
+      <handler
+            class="org.freejava.tools.handlers.ViewDependencyHandler"
+            commandId="org.freejava.tools.commands.viewOutboundClassDependencyCommand">
+        <enabledWhen>
+          <with variable="selection">
+            <iterate ifEmpty="false" operator="or">
+              <or>
+                <instanceof value="org.eclipse.jdt.core.IClassFile"></instanceof>
+                <instanceof value="org.eclipse.jdt.core.ICompilationUnit"></instanceof>
+                <instanceof value="org.eclipse.jdt.core.IPackageFragment"></instanceof>
+                <instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"></instanceof>
+                <instanceof value="org.eclipse.jdt.core.IJavaProject"></instanceof>
+              </or>
+            </iterate>
+          </with>
+        </enabledWhen>
+      </handler>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
    	  <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
      		<command commandId="org.freejava.tools.commands.viewPackageDependencyCommand"/>
    	  </menuContribution>
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+            <command commandId="org.freejava.tools.commands.viewOutboundPackageDependencyCommand"/>
+      </menuContribution>
    	  <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
      		<command commandId="org.freejava.tools.commands.viewClassDependencyCommand"/>
    	  </menuContribution>
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+            <command commandId="org.freejava.tools.commands.viewOutboundClassDependencyCommand"/>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.views">
