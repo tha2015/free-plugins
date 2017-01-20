@@ -5,7 +5,7 @@
       version="1.0.0.0"
       provider-name="Thai Ha">
 
-   <description url="http://svn.codespot.com/a/eclipselabs.org/free-plugins/">
+   <description url="https://github.com/tha2015/free-plugins">
       An Eclipse plugin to integrate Eclipse and Windows tools.
    </description>
 
@@ -26,7 +26,7 @@
    </license>
 
    <url>
-      <update label="freejava" url="http://svn.codespot.com/a/eclipselabs.org/free-plugins/trunk/site"/>
+      <update label="freejava" url="https://dl.bintray.com/tha/eclipserepo/"/>
    </url>
 
    <plugin
