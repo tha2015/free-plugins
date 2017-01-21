@@ -31,6 +31,44 @@
           <target>1.6</target>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <configuration>
+              <target>
+		
+		<!-- Unzip the content.jar -->
+		<unzip dest="${project.build.directory}/unzipped" src="${project.build.directory}/repository/content.jar" />
+		<replace file="${project.build.directory}/unzipped/content.xml">
+			<replacetoken><![CDATA[</repository>]]></replacetoken>
+			<replacevalue><![CDATA[
+<references size="2">
+<repository options="1" type="0" uri="http://download.eclipse.org/tools/gef/updates/legacy/releases/" url="http://download.eclipse.org/tools/gef/updates/legacy/releases/"/>
+<repository options="1" type="1" uri="http://download.eclipse.org/tools/gef/updates/legacy/releases/" url="http://download.eclipse.org/tools/gef/updates/legacy/releases/"/>
+</references>
+</repository>]]></replacevalue>
+		</replace>
+		<delete file="${project.build.directory}/repository/content.jar" />
+		<!-- Re-zip content.xml into content.jar -->
+		<zip destfile="${project.build.directory}/repository/content.jar">
+			<zipfileset dir="${project.build.directory}/unzipped">
+				<include name="content.xml" />
+			</zipfileset>
+		</zip>
+		<delete file="${project.build.directory}/unzipped/content.xml" />
+		
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
 
     </plugins>
   </build>
