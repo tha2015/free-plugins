@@ -1,4 +1,11 @@
 language: java
 jdk:
-  - openjdk6
+- openjdk6
 sudo: false
+deploy:
+  provider: bintray
+  file: "bintraydeploy.json"
+  user: "tha"
+  key:
+    secure: a2jgL68018Alyn1ZGBZoCbPnll3ufWnFuVB0PojpK+0OtXb9Qt200cpAsWDhGgjeGsENauLtK9TlXgzsnsgEC1zmRWVJlIn3KyKsVPLsI7HwqaOtigDXAgeOsD69SuJMVJwdP6DYbtt/LmXRc/ZWWtVG+Mhr8A3XftuO5ezATNkNv4Kg6CGcXAZcjFjgzExybnxk2y+Cnlfp0iIhkMVobTwLtwPFW/ljFDEHkmkb/zwjalwo64FvY7pcbfz/rPkwksdBzIOBHy1dj06Vu+ySFVqbHZL1ONSBecfjOoRFGcj763jV1eXMKR7J/JlIgxQnvShwlxnKHn1/EjDiKPSdGWV5psD4aNB0sjlcC0mi3H4lTIzV05ZzDPLhlCfZ5pvfdlpOGU7b6y6kUrjcBDN+YoVGDQLahRkflawgr+lWD61UGVY/1T/plZF8sWefa3vqI8H5cjg4nSxGjctTTY+PGTeThY8dCK2aj7Yz2sn94IoN2O1+sfL5vBKoeg+SFgkrLY7NW3Z4l/Dwqy9WA6edE7nrOsjdoteXsnt/SWnHgBqA0AR3AaXw4GsTvQHkOFXqiQxtcSrVOfRH/Rim7C+kqB5iZCXo+UGv31Bn03w+lAKC44WSNa2fUvBy5Vn5immmiHJZymMWE/wp1MFQKfyRlq3Sr4rfjbUtJtHa3XBg3V4=
+  dry-run: "true"

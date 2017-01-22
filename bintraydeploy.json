@@ -1,0 +1,19 @@
+{
+    "package": {
+        "name": "org.freejava.plugins.repository",
+        "repo": "eclipserepo",
+        "subject": "tha"
+    },
+
+    "version": {
+        "name": "1.0.2"
+    },
+
+    "files":
+        [
+        {"includePattern": "org.freejava.plugins.repository/target/repository/(.*)", "uploadPattern": "$1"},
+        {"includePattern": "org.freejava.plugins.repository/target/repository/features/(.*)", "uploadPattern": "features/$1"},
+        {"includePattern": "org.freejava.plugins.repository/target/repository/plugins/(.*)", "uploadPattern": "plugins/$1"}
+        ],
+    "publish": true
+}
