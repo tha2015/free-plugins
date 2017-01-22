@@ -3,7 +3,9 @@
    <feature id="org.freejava.javasourceattacher.feature"/>
    <feature id="org.freejava.javaexamplessearch.feature"/>
    <feature id="org.freejava.dependencyviewer.feature"/>
+   <!--
    <feature id="org.freejava.windowstools.feature"/>
    <feature id="org.freejava.projectimpport.feature"/>
+    -->
    <repository-reference location="http://download.eclipse.org/tools/gef/updates/legacy/releases/" enabled="true" />
 </site>
