@@ -1,7 +1,8 @@
+sudo: false
 language: java
+script: mvn install
 jdk:
 - openjdk6
-sudo: false
 deploy:
   provider: bintray
   file: "bintraydeploy.json"
