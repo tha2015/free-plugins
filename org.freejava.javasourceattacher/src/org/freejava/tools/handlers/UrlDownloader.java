@@ -76,14 +76,14 @@ public class UrlDownloader {
                         String[] versionTypeAndVersion = StringUtils.split(fragment, '=');
                         String version = StringUtils.trim(versionTypeAndVersion[1]);
                         String type = StringUtils.trim(versionTypeAndVersion[0]);
-                        if ("tag".equals(type)) {
+                        if ("tag".equalsIgnoreCase(type)) {
                             scmVersion = new ScmTag(version);
-                        } else if ("branch".equals(type)) {
+                        } else if ("branch".equalsIgnoreCase(type)) {
                             scmVersion = new ScmBranch(version);
-                        } else if ("revision".equals(type)) {
+                        } else if ("revision".equalsIgnoreCase(type)) {
                             scmVersion = new ScmRevision(version);
-                        } else if ("commitId".equals(type)) {
-                            scmVersion = new ScmRevision(version);
+                        } else if ("commitId".equalsIgnoreCase(type)) {
+                            scmVersion = new ScmTag(version);
                         } else {
                             throw new IllegalArgumentException("'" + type + "' version type isn't known.");
                         }
@@ -100,17 +100,17 @@ public class UrlDownloader {
                             String[] versionTypeAndVersion = StringUtils.split(property, '=');
                             String version = StringUtils.strip(versionTypeAndVersion[1], " \"");
                             String type = StringUtils.trim(versionTypeAndVersion[0]);
-                            if ("tag".equals(type)) {
+                            if ("tag".equalsIgnoreCase(type)) {
                                 scmVersion = new ScmTag(version);
                                 break;
-                            } else if ("branch".equals(type)) {
+                            } else if ("branch".equalsIgnoreCase(type)) {
                                 scmVersion = new ScmBranch(version);
                                 break;
-                            } else if ("revision".equals(type)) {
+                            } else if ("revision".equalsIgnoreCase(type)) {
                                 scmVersion = new ScmRevision(version);
                                 break;
-                            } else if ("commitId".equals(type)) {
-                                scmVersion = new ScmRevision(version);
+                            } else if ("commitId".equalsIgnoreCase(type)) {
+                                scmVersion = new ScmTag(version);
                                 break;
                             }
                         }
