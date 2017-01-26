@@ -11,7 +11,7 @@
 
     "files":
         [
-        {"includePattern": "org.freejava.plugins.repository/target/repository/(.*)", "uploadPattern": "$1", "matrixParams": {"override": 1 }},
+        {"includePattern": "org.freejava.plugins.repository/target/repository/(.*\\.jar)", "uploadPattern": "$1", "matrixParams": {"override": 1 }},
         {"includePattern": "org.freejava.plugins.repository/target/repository/features/(.*)", "uploadPattern": "features/$1", "matrixParams": {"override": 1 }},
         {"includePattern": "org.freejava.plugins.repository/target/repository/plugins/(.*)", "uploadPattern": "plugins/$1", "matrixParams": {"override": 1 }}
         ],
