@@ -38,7 +38,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-hg-1.9.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-integrity-1.9.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-jazz-1.9.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-jgit-1.9.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-jgit-1.9.4.jar" sourcepath="/Users/tha/.sourceattacher/maven-scm-provider-jgit-1.9.4-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-local-1.9.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-perforce-1.9.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-starteam-1.9.4.jar"/>
@@ -48,7 +48,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-tfs-1.9.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/maven-scm-provider-vss-1.9.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/mksapi-jar-4.10.9049.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.jgit-3.2.0.201312181205-r.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.jgit-3.2.0.201312181205-r.jar" sourcepath="/Users/tha/.sourceattacher/org.eclipse.jgit-3.2.0.201312181205-r-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/ant.jar" sourcepath="C:/Users/tha/.sourceattacher/ant-1.9.4-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/nexus-indexer-lucene-model-2.9.2-01.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/nexus-restlet1x-model-2.9.2-01.jar"/>
