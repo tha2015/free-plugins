@@ -29,6 +29,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.freejava.dependency.builder.Name;
 import org.freejava.dependency.builder.impl.Class2PackageGraphTransformerImpl;
 import org.freejava.dependency.builder.impl.ClassGraphBuilderImpl;
+import org.freejava.dependency.builder.impl.MarkNonSelectedNamesGraphTransformerImpl;
 import org.freejava.dependency.builder.impl.RemoveSelfReferenceNodesGraphTransformerImpl;
 import org.freejava.dependency.builder.impl.RetainOnlyFromSelectedNamesGraphTransformerImpl;
 import org.freejava.dependency.builder.impl.RetainOnlySelectedNamesGraphTransformerImpl;
@@ -112,11 +113,11 @@ public class ViewDependencyHandler extends AbstractHandler {
         if (type == 1) { // inbound package dependencies
             graph = new RetainOnlySelectedNamesGraphTransformerImpl(names).transform(new Class2PackageGraphTransformerImpl().transform(classes));
         } else if (type == 2) { // outbound package dependencies
-            graph = new RetainOnlyFromSelectedNamesGraphTransformerImpl(names).transform(new Class2PackageGraphTransformerImpl().transform(classes));
+            graph = new MarkNonSelectedNamesGraphTransformerImpl(names).transform(new RetainOnlyFromSelectedNamesGraphTransformerImpl(names).transform(new Class2PackageGraphTransformerImpl().transform(classes)));
         } else if (type == 3) { // inbound class dependencies
             graph =  new RetainOnlySelectedNamesGraphTransformerImpl(names).transform(classes);
         } else { // outbound classes dependencies
-            graph = new RetainOnlyFromSelectedNamesGraphTransformerImpl(names).transform(classes);
+            graph = new MarkNonSelectedNamesGraphTransformerImpl(names).transform(new RetainOnlyFromSelectedNamesGraphTransformerImpl(names).transform(classes));
         }
         graph = new RemoveSelfReferenceNodesGraphTransformerImpl<Name>().transform(graph);
         return graph;
