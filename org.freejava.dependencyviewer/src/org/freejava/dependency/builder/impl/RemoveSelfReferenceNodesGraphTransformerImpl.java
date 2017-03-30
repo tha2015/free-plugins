@@ -13,7 +13,7 @@ public class RemoveSelfReferenceNodesGraphTransformerImpl<T> implements GraphTra
 
         Set<Edge<T>> edges = new HashSet<Edge<T>>();
         for (Edge<T> edge : graph.getEdges()) {
-            if (edge.getFrom() != edge.getTo()) {
+            if (!edge.getFrom().equals(edge.getTo())) {
                 edges.add(edge);
             }
         }
