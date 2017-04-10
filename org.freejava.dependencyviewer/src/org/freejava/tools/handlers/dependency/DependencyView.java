@@ -14,10 +14,10 @@ import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
-import org.freejava.dependency.builder.Name;
-import org.freejava.dependency.builder.impl.RemoveNodesGraphTransformerImpl;
-import org.freejava.dependency.graph.Graph;
-import org.freejava.dependency.graph.Vertex;
+import org.freejava.dependency.graphtransformer.impl.RemoveNodesGraphTransformerImpl;
+import org.freejava.dependency.model.Graph;
+import org.freejava.dependency.model.Name;
+import org.freejava.dependency.model.Vertex;
 
 
 

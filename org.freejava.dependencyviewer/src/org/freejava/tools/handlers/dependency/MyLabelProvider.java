@@ -5,8 +5,8 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.freejava.dependency.builder.Name;
-import org.freejava.dependency.graph.Vertex;
+import org.freejava.dependency.model.Name;
+import org.freejava.dependency.model.Vertex;
 import org.freejava.tools.Activator;
 
 public class MyLabelProvider extends LabelProvider implements org.eclipse.zest.core.viewers.IEntityStyleProvider {
@@ -53,7 +53,7 @@ public class MyLabelProvider extends LabelProvider implements org.eclipse.zest.c
         if (element instanceof Vertex) {
             @SuppressWarnings("unchecked")
             Vertex<Name> node = (Vertex<Name>) element;
-            if (node.getNode().isFoundViaDependency()) {
+            if ("orange".equals(node.getNode().getColor())) {
             	return ORANGE;
             }
         }

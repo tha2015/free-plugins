@@ -28,6 +28,11 @@
             id="org.freejava.tools.commands.viewOutboundClassDependencyCommand"
             name="View Outbound Class Dependency">
       </command>
+      <command
+            categoryId="org.freejava.tools.commands.category"
+            id="org.freejava.tools.commands.viewOutboundModuleDependencyCommand"
+            name="View Outbound Module Dependency">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -96,21 +101,34 @@
           </with>
         </enabledWhen>
       </handler>
+      <handler
+            class="org.freejava.tools.handlers.ViewDependencyHandler"
+            commandId="org.freejava.tools.commands.viewOutboundModuleDependencyCommand">
+        <enabledWhen>
+          <with variable="selection">
+            <iterate ifEmpty="false" operator="or">
+              <or>
+                <instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"></instanceof>
+                <instanceof value="org.eclipse.jdt.core.IJavaProject"></instanceof>
+              </or>
+            </iterate>
+          </with>
+        </enabledWhen>
+      </handler>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
    	  <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+       <menu label="Dependency Viewer">
      		<command commandId="org.freejava.tools.commands.viewPackageDependencyCommand"/>
-   	  </menuContribution>
-      <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-            <command commandId="org.freejava.tools.commands.viewOutboundPackageDependencyCommand"/>
-      </menuContribution>
-   	  <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
      		<command commandId="org.freejava.tools.commands.viewClassDependencyCommand"/>
-   	  </menuContribution>
-      <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+            <command commandId="org.freejava.tools.commands.viewOutboundPackageDependencyCommand"/>
             <command commandId="org.freejava.tools.commands.viewOutboundClassDependencyCommand"/>
-      </menuContribution>
+            <!--
+            <command commandId="org.freejava.tools.commands.viewOutboundModuleDependencyCommand"/>
+            -->
+       </menu>
+   	  </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.views">

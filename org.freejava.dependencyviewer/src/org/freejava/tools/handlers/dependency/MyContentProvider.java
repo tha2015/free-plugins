@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.zest.core.viewers.IGraphContentProvider;
-import org.freejava.dependency.builder.Name;
-import org.freejava.dependency.graph.Edge;
-import org.freejava.dependency.graph.Graph;
+import org.freejava.dependency.model.Edge;
+import org.freejava.dependency.model.Graph;
+import org.freejava.dependency.model.Name;
 
 public class MyContentProvider implements IGraphContentProvider {
 
