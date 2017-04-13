@@ -1,10 +1,17 @@
 package org.freejava.tools.handlers;
 
 import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -29,18 +36,27 @@ public class ViewDependencyHandler extends AbstractHandler {
      * the command has been executed, so extract extract the needed information
      * from the application context.
      */
-    public Object execute(ExecutionEvent event) throws ExecutionException {
+    public Object execute(final ExecutionEvent event) throws ExecutionException {
         try {
-            ISelection selection = HandlerUtil.getCurrentSelection(event);
+            final ISelection selection = HandlerUtil.getCurrentSelection(event);
 
             if (!(selection instanceof IStructuredSelection)) {
                 return null;
             }
 
-            // map selection+command -> graph
-            final Graph<Name> graphNodes = new GraphBuilderFacadeImpl(new ViewCommand(event.getCommand()), (IStructuredSelection) selection).build();
+            // Process valid requests in background
+            final Shell shell = HandlerUtil.getActiveWorkbenchWindow(event).getShell();
+            if (!selection.isEmpty()) {
+                Job job = new Job("Calculating dependencies...") {
+                    protected IStatus run(IProgressMonitor monitor) {
+                        return doExecuteInBackground(selection, event.getCommand(), monitor, shell);
+                    }
+                };
+                job.setPriority(Job.LONG);
+                job.schedule();
+            }
 
-            getDependencyView().setDependencyInfo(graphNodes);
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,6 +64,26 @@ public class ViewDependencyHandler extends AbstractHandler {
 
         return null;
     }
+
+
+
+	protected IStatus doExecuteInBackground(ISelection selection, Command command, final IProgressMonitor monitor, final Shell shell) {
+		try {
+	        // map selection+command -> graph
+	        final Graph<Name> graphNodes = new GraphBuilderFacadeImpl(new ViewCommand(command), (IStructuredSelection) selection).build();
+
+            Display.getDefault().asyncExec(new Runnable() {
+                public void run() {
+        	        getDependencyView().setDependencyInfo(graphNodes);
+                }
+            });
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+        return Status.OK_STATUS;
+	}
 
 
 
