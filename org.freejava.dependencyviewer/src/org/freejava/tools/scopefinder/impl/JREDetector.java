@@ -60,4 +60,9 @@ public class JREDetector {
 	public static boolean isJREFile(File file) {
 		return file.getName().equals("rt.jar");
 	}
+
+
+	public static boolean isJREPackage(String name) {
+		return name.startsWith("java.") || name.startsWith("javax.xml.")|| name.startsWith("javax.swing.")|| name.startsWith("javax.security.");
+	}
 }

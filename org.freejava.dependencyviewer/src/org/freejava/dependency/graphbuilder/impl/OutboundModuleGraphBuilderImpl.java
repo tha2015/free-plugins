@@ -8,6 +8,7 @@ import java.util.Set;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.freejava.dependency.graphtransformer.impl.Class2PackageRootGraphTransformerImpl;
 import org.freejava.dependency.graphtransformer.impl.MarkNonSelectedNamesGraphTransformerImpl;
+import org.freejava.dependency.graphtransformer.impl.RemoveJRENodesGraphTransformerImpl;
 import org.freejava.dependency.graphtransformer.impl.RemoveSelfReferenceNodesGraphTransformerImpl;
 import org.freejava.dependency.graphtransformer.impl.RetainOnlyFromSelectedNamesGraphTransformerImpl;
 import org.freejava.dependency.model.ClassInfo;
@@ -39,8 +40,9 @@ public class OutboundModuleGraphBuilderImpl extends AbstractClassBuilderImpl {
 
         Set<String> names = findSelectedRoots(scope.getRoot2FilesMap().keySet());
 
-        graph = new MarkNonSelectedNamesGraphTransformerImpl(names, "orange").transform(new RetainOnlyFromSelectedNamesGraphTransformerImpl(names).transform(new Class2PackageRootGraphTransformerImpl().transform(classes)));
+        graph = new MarkNonSelectedNamesGraphTransformerImpl(names, "orange").transform(new RetainOnlyFromSelectedNamesGraphTransformerImpl(names).transform(new Class2PackageRootGraphTransformerImpl(scope.getRoots2Classes()).transform(classes)));
         graph = new RemoveSelfReferenceNodesGraphTransformerImpl<Name>().transform(graph);
+        graph = new RemoveJRENodesGraphTransformerImpl().transform(graph);
 
 		return graph;
 

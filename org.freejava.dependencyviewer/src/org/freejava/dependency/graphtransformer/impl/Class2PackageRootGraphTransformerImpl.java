@@ -1,5 +1,6 @@
 package org.freejava.dependency.graphtransformer.impl;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -12,6 +13,11 @@ import org.freejava.dependency.model.Name;
 import org.freejava.dependency.model.Vertex;
 
 public class Class2PackageRootGraphTransformerImpl implements GraphTransformer<Name> {
+	Map<File, Set<String>> roots2Classes;
+
+	public Class2PackageRootGraphTransformerImpl(Map<File, Set<String>> roots2Classes) {
+		this.roots2Classes = roots2Classes;
+	}
 
 	public Graph<Name> transform(Graph<Name> graph) {
 
@@ -48,13 +54,21 @@ public class Class2PackageRootGraphTransformerImpl implements GraphTransformer<N
     	if (v.getNode().getFrom() != null) {
     		name = v.getNode().getFrom().getAbsolutePath();
     	} else {
-    		name = v.getNode().getName();
-    		if (name.contains(".")) {
-    			name = name.substring(0, name.lastIndexOf('.'));
-    		}
+    		name = getRootFromClass(v.getNode().getName());
+
     	}
     	return name;
     }
+
+	private String getRootFromClass(String clazz) {
+		for (File file : roots2Classes.keySet()) {
+			if (roots2Classes.get(file).contains(clazz)) return file.getAbsolutePath();
+		}
+		if (clazz.contains(".")) {
+			clazz = clazz.substring(0, clazz.lastIndexOf('.'));
+		}
+		return clazz;
+	}
 
 
 }

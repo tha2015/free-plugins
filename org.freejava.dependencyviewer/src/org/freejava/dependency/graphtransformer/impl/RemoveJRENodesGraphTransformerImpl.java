@@ -7,6 +7,7 @@ import org.freejava.dependency.graphtransformer.GraphTransformer;
 import org.freejava.dependency.model.Edge;
 import org.freejava.dependency.model.Graph;
 import org.freejava.dependency.model.Name;
+import org.freejava.tools.scopefinder.impl.JREDetector;
 
 public class RemoveJRENodesGraphTransformerImpl implements GraphTransformer<Name> {
     public Graph<Name> transform(Graph<Name> graph) {
@@ -17,7 +18,7 @@ public class RemoveJRENodesGraphTransformerImpl implements GraphTransformer<Name
         	String from = edge.getFrom().getNode().getName();
         	String to = edge.getTo().getNode().getName();
 
-            if (!isJREPackage(from) && !isJREPackage(to)) {
+            if (!JREDetector.isJREPackage(from) && !JREDetector.isJREPackage(to)) {
                 edges.add(edge);
             }
 
@@ -28,9 +29,6 @@ public class RemoveJRENodesGraphTransformerImpl implements GraphTransformer<Name
         return result;
     }
 
-	private boolean isJREPackage(String name) {
-		return name.startsWith("java.") || name.startsWith("javax.xml.")|| name.startsWith("javax.swing.")|| name.startsWith("javax.security.");
-	}
 
 
 }

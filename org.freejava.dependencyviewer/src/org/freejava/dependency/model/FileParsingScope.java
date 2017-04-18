@@ -9,6 +9,8 @@ import java.util.Set;
 public class FileParsingScope {
 	private Set<File> files = new HashSet<File>();
 	Map<File, Set<File>> root2FilesMap;
+	Map<File, Set<String>> roots2Classes;
+
 	public void addFiles(Collection<File> files) {
 		this.files.addAll(files);
 	}
@@ -21,4 +23,11 @@ public class FileParsingScope {
 	public Map<File, Set<File>> getRoot2FilesMap() {
 		return root2FilesMap;
 	}
+	public void setRoots2Classes(Map<File, Set<String>> roots2Classes) {
+		this.roots2Classes = roots2Classes;
+	}
+	public Map<File, Set<String>> getRoots2Classes() {
+		return roots2Classes;
+	}
+
 }

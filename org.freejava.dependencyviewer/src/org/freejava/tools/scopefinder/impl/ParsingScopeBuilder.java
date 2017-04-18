@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -17,6 +18,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IRegion;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -93,15 +95,28 @@ public class ParsingScopeBuilder {
 
 		Set<File> result = new HashSet<File>();
 		Map<File, Set<File>> root2FilesMap = new HashMap<File, Set<File>>();
+		Map<File, Set<String>> roots2Classes = new HashMap<File, Set<String>>();
+
 		if (level == LEVEL_PACKAGE_ROOT) {
+			Set<IJavaProject> projects = new HashSet<IJavaProject>();
 			for (IPackageFragmentRoot root : resultRoots) {
 				File location = rootLocation(root);
 				if (!JREDetector.isJREFile(location)) {
 					Set<File> files = root2Files(root);
 					result.addAll(files);
 					root2FilesMap.put(location, files);
+					projects.add(root.getJavaProject());
 				}
 			}
+			for (IJavaProject project : projects) {
+				for (IPackageFragmentRoot root : project.getAllPackageFragmentRoots()) {
+					File location = rootLocation(root);
+					if (!JREDetector.isJREFile(location)) {
+						roots2Classes.put(location, getClasses(root));
+					}
+				}
+			}
+
 		} else if (level == LEVEL_PACKAGE || level == LEVEL_CLASS) {
 
 			Set<IPackageFragment> resultPackages = new HashSet<IPackageFragment>(roots2Packages(resultRoots));
@@ -122,12 +137,33 @@ public class ParsingScopeBuilder {
 		FileParsingScope result2 = new FileParsingScope();
 		result2.addFiles(result);
 		result2.setRootFileMap(root2FilesMap);
+		result2.setRoots2Classes(roots2Classes);
 		return result2;
 	}
 
 
 
 
+
+	private Set<String> getClasses(IPackageFragmentRoot root) throws JavaModelException {
+		Set<String> classes = new HashSet<String>();
+		for (IJavaElement child :  root.getChildren()) {
+			IPackageFragment fragment = (IPackageFragment) child;
+			for (IClassFile cf : fragment.getClassFiles()) {
+				classes.add(cf.getType().getFullyQualifiedName());
+			}
+			for (ICompilationUnit cu : fragment.getCompilationUnits()) {
+				for (IJavaElement e : cu.getChildren()) {
+					if (e instanceof IType) {
+						IType type = (IType) e;
+						classes.add(type.getFullyQualifiedName());
+					}
+				}
+			}
+		}
+
+		return classes;
+	}
 
 	private Collection<File> compilationUnits2Files(Set<ICompilationUnit> compilelationUnits2) {
 		Set<File> files = new HashSet<File>();
