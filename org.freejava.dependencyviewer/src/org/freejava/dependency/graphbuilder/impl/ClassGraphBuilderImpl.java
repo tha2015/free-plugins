@@ -22,12 +22,14 @@ public class ClassGraphBuilderImpl implements GraphBuilder<Name> {
 
 	public Graph<Name> build() throws Exception {
 
+		Map<String, File> className2File = getClassLocations(classInfos);
+
         Map<String, Vertex<Name>> classToVertex = new HashMap<String, Vertex<Name>>();
 
         // initialize interfaces
         for (ClassInfo classInfo : classInfos.keySet()) {
             for (String interfaceName : classInfo.getInterfaces()) {
-                classToVertex.put(interfaceName, new Vertex<Name>(Name.newInterface(interfaceName)));
+                classToVertex.put(interfaceName, new Vertex<Name>(Name.newInterface(interfaceName, className2File.get(interfaceName))));
             }
         }
 
@@ -39,7 +41,7 @@ public class ClassGraphBuilderImpl implements GraphBuilder<Name> {
 
             for (String className : classNames) {
                 if (!classToVertex.containsKey(className)) {
-                    classToVertex.put(className, new Vertex<Name>(Name.newClass(className)));
+                    classToVertex.put(className, new Vertex<Name>(Name.newClass(className, className2File.get(className))));
                 }
             }
         }
@@ -62,4 +64,12 @@ public class ClassGraphBuilderImpl implements GraphBuilder<Name> {
 
         return result;
     }
+
+	private Map<String, File> getClassLocations(Map<ClassInfo, File> classInfos) {
+		Map<String, File> result = new HashMap<String, File>();
+		for (ClassInfo ci : classInfos.keySet()) {
+			result.put(ci.getClassName(), classInfos.get(ci));
+		}
+		return result;
+	}
 }

@@ -31,7 +31,7 @@
       <command
             categoryId="org.freejava.tools.commands.category"
             id="org.freejava.tools.commands.viewOutboundModuleDependencyCommand"
-            name="View Outbound Module Dependency">
+            name="View Outbound Module Dependency (experimental)">
       </command>
    </extension>
    <extension
@@ -124,9 +124,7 @@
      		<command commandId="org.freejava.tools.commands.viewClassDependencyCommand"/>
             <command commandId="org.freejava.tools.commands.viewOutboundPackageDependencyCommand"/>
             <command commandId="org.freejava.tools.commands.viewOutboundClassDependencyCommand"/>
-            <!--
             <command commandId="org.freejava.tools.commands.viewOutboundModuleDependencyCommand"/>
-            -->
        </menu>
    	  </menuContribution>
    </extension>

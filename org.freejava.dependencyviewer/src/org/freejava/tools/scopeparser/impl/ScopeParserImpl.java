@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -29,12 +30,15 @@ public class ScopeParserImpl implements ScopeParser {
 
         Map<ClassInfo, File> classInfos = new HashMap<ClassInfo, File>();
 
+        Map<File, Set<File>> root2Files = scope.getRoot2FilesMap();
+
         for (File f : scope.getFiles()) {
+        	File rootOfF = getRoot(root2Files, f);
 
             if (f.isFile() && f.getName().endsWith(".class")) {
                 InputStream is = new FileInputStream(f);
                 try {
-                    classInfos.put(this.classParser.parse(is), f);
+                    classInfos.put(this.classParser.parse(is), rootOfF);
                 } catch (Exception ex) {
                 } finally {
                     IOUtils.closeQuietly(is);
@@ -48,7 +52,7 @@ public class ScopeParserImpl implements ScopeParser {
                   if (!entry.isDirectory() && entry.getName().endsWith(".class")) {
                       InputStream is = jarFile.getInputStream(entry);
                       try {
-                          classInfos.put(this.classParser.parse(is), f);
+                          classInfos.put(this.classParser.parse(is), rootOfF);
                       } catch (Exception ex) {
                       } finally {
                           IOUtils.closeQuietly(is);
@@ -61,7 +65,7 @@ public class ScopeParserImpl implements ScopeParser {
                 for (File file : FileUtils.listFiles(f, new String[] {"class"}, true)) {
                     InputStream is = new FileInputStream(file);
                     try {
-                        classInfos.put(this.classParser.parse(is), f);
+                        classInfos.put(this.classParser.parse(is), rootOfF);
                     } catch (Exception ex) {
                     } finally {
                         IOUtils.closeQuietly(is);
@@ -72,6 +76,13 @@ public class ScopeParserImpl implements ScopeParser {
         }
 
 		return classInfos;
+	}
+
+	private File getRoot(Map<File, Set<File>> root2Files, File f) {
+		for (File root : root2Files.keySet()) {
+			if (root2Files.get(root).contains(f)) return root;
+		}
+		return null;
 	}
 
 }

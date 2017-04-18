@@ -36,19 +36,19 @@ public class GraphBuilderFacadeImpl implements GraphBuilder<Name> {
         Map<ClassInfo, File> classInfos = new ScopeParserImpl(new MavenClassParserImpl()).parse(scope);
 
         // map classinfos - graph
-        Graph<Name> graph = getGraphBuilderImpl(command, selection, classInfos).build();
+        Graph<Name> graph = getGraphBuilderImpl(command, selection, scope, classInfos).build();
 
         return graph;
     }
 
 	private GraphBuilder<Name> getGraphBuilderImpl(ViewCommand command, IStructuredSelection selection,
-			Map<ClassInfo, File> classInfos) {
+			FileParsingScope scope, Map<ClassInfo, File> classInfos) {
 		GraphBuilder<Name> builder;
         if (command.isViewInboundClassDependency()) builder = new InboundClassGraphBuilderImpl(command, selection, classInfos);
         else if (command.isViewOutboundClassDependency()) builder = new OutboundClassGraphBuilderImpl(command, selection, classInfos);
         else if (command.isViewInboundPackageDependency()) builder = new InboundPackageGraphBuilderImpl(command, selection, classInfos);
         else if (command.isViewOutboundPackageDependency()) builder = new OutboundPackageGraphBuilderImpl(command, selection, classInfos);
-        else builder = new OutboundModuleGraphBuilderImpl(command, selection, classInfos);
+        else builder = new OutboundModuleGraphBuilderImpl(command, selection, scope, classInfos);
 		return builder;
 	}
 
