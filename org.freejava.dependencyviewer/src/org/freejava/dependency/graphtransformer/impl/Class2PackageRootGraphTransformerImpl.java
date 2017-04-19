@@ -52,7 +52,7 @@ public class Class2PackageRootGraphTransformerImpl implements GraphTransformer<N
     private String getRootName(Vertex<Name> v) {
     	String name;
     	if (v.getNode().getFrom() != null) {
-    		name = v.getNode().getFrom().getAbsolutePath();
+    		name = file2Name(v.getNode().getFrom());
     	} else {
     		name = getRootFromClass(v.getNode().getName());
 
@@ -62,7 +62,7 @@ public class Class2PackageRootGraphTransformerImpl implements GraphTransformer<N
 
 	private String getRootFromClass(String clazz) {
 		for (File file : roots2Classes.keySet()) {
-			if (roots2Classes.get(file).contains(clazz)) return file.getAbsolutePath();
+			if (roots2Classes.get(file).contains(clazz)) return file2Name(file);
 		}
 		if (clazz.contains(".")) {
 			clazz = clazz.substring(0, clazz.lastIndexOf('.'));
@@ -70,5 +70,8 @@ public class Class2PackageRootGraphTransformerImpl implements GraphTransformer<N
 		return clazz;
 	}
 
+	public static String file2Name(File file) {
+		return file.getName().contains(".") ? file.getName() : file.getAbsolutePath();
+	}
 
 }

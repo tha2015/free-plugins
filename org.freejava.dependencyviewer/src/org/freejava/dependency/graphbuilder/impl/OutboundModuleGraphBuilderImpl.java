@@ -49,7 +49,7 @@ public class OutboundModuleGraphBuilderImpl extends AbstractClassBuilderImpl {
 	}
 	private Set<String> findSelectedRoots(Set<File> files) {
 		Set<String> result = new HashSet<String>();
-		for (File file : files) result.add(file.getAbsolutePath());
+		for (File file : files) result.add(Class2PackageRootGraphTransformerImpl.file2Name(file));
 		return result;
 	}
 
