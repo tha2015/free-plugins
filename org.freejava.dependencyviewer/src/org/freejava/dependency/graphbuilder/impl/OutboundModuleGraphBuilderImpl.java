@@ -10,6 +10,7 @@ import org.freejava.dependency.graphtransformer.impl.Class2PackageRootGraphTrans
 import org.freejava.dependency.graphtransformer.impl.MarkNonSelectedNamesGraphTransformerImpl;
 import org.freejava.dependency.graphtransformer.impl.RemoveJRENodesGraphTransformerImpl;
 import org.freejava.dependency.graphtransformer.impl.RemoveSelfReferenceNodesGraphTransformerImpl;
+import org.freejava.dependency.graphtransformer.impl.RenameFileNodesToGAVGraphTransformerImpl;
 import org.freejava.dependency.graphtransformer.impl.RetainOnlyFromSelectedNamesGraphTransformerImpl;
 import org.freejava.dependency.model.ClassInfo;
 import org.freejava.dependency.model.FileParsingScope;
@@ -43,6 +44,8 @@ public class OutboundModuleGraphBuilderImpl extends AbstractClassBuilderImpl {
         graph = new MarkNonSelectedNamesGraphTransformerImpl(names, "orange").transform(new RetainOnlyFromSelectedNamesGraphTransformerImpl(names).transform(new Class2PackageRootGraphTransformerImpl(scope.getRoots2Classes()).transform(classes)));
         graph = new RemoveSelfReferenceNodesGraphTransformerImpl<Name>().transform(graph);
         graph = new RemoveJRENodesGraphTransformerImpl().transform(graph);
+
+        graph = new RenameFileNodesToGAVGraphTransformerImpl().transform(graph);
 
 		return graph;
 

@@ -23,10 +23,10 @@ public class Class2PackageRootGraphTransformerImpl implements GraphTransformer<N
 
         Set<Edge<Name>> edges = new HashSet<Edge<Name>>();
 
-        Map<String, Vertex<Name>> packageToVertex = new HashMap<String, Vertex<Name>>();
+        Map<String, Vertex<Name>> cachedPackageVerteces = new HashMap<String, Vertex<Name>>();
         for (Edge<Name> edge : graph.getEdges()) {
-            Vertex<Name> from = findVertex(packageToVertex, getRootName(edge.getFrom()));
-            Vertex<Name> to = findVertex(packageToVertex, getRootName(edge.getTo()));
+            Vertex<Name> from = findPackageVertexFromClassVertex(cachedPackageVerteces, edge.getFrom());
+            Vertex<Name> to = findPackageVertexFromClassVertex(cachedPackageVerteces, edge.getTo());
             Edge<Name> newEdge = new Edge<Name>(from, to);
             if (!edges.contains(newEdge)) {
                 edges.add(newEdge);
@@ -38,40 +38,54 @@ public class Class2PackageRootGraphTransformerImpl implements GraphTransformer<N
         return result;
     }
 
-    private Vertex<Name> findVertex(Map<String, Vertex<Name>> packageToVertex, String packageName) {
-        Vertex<Name> vertex;
-        if (packageToVertex.containsKey(packageName)) {
-            vertex = packageToVertex.get(packageName);
+    private Vertex<Name> findPackageVertexFromClassVertex(Map<String, Vertex<Name>> cachedPackageVerteces, Vertex<Name> classVertex) {
+    	Vertex<Name> packageVertex;
+    	String packageName = getPackageName(classVertex);
+        if (cachedPackageVerteces.containsKey(packageName)) {
+        	packageVertex = cachedPackageVerteces.get(packageName);
         } else {
-            vertex = new Vertex<Name>(Name.newPackage(packageName));
-            packageToVertex.put(packageName, vertex);
+        	packageVertex = new Vertex<Name>(Name.newPackage(packageName).setFrom(classVertex.getNode().getFrom()));
+        	if (packageVertex.getNode().getFrom() == null) {
+        		packageVertex.getNode().setFrom(getJarFile(classVertex.getNode().getName()));
+        	}
+            cachedPackageVerteces.put(packageName, packageVertex);
         }
-        return vertex;
+        return packageVertex;
     }
 
-    private String getRootName(Vertex<Name> v) {
+    private String getPackageName(Vertex<Name> classVertex) {
     	String name;
-    	if (v.getNode().getFrom() != null) {
-    		name = file2Name(v.getNode().getFrom());
+    	if (classVertex.getNode().getFrom() != null) {
+    		name = file2Name(classVertex.getNode().getFrom());
     	} else {
-    		name = getRootFromClass(v.getNode().getName());
+    		name = getRootFromClass(classVertex.getNode().getName());
 
     	}
     	return name;
     }
 
 	private String getRootFromClass(String clazz) {
-		for (File file : roots2Classes.keySet()) {
-			if (roots2Classes.get(file).contains(clazz)) return file2Name(file);
-		}
+		File jarFile = getJarFile(clazz);
+
+		if (jarFile != null) return file2Name(jarFile);
+
 		if (clazz.contains(".")) {
 			clazz = clazz.substring(0, clazz.lastIndexOf('.'));
+		} else {
+			String s = "";
 		}
 		return clazz;
 	}
 
 	public static String file2Name(File file) {
 		return file.getName().contains(".") ? file.getName() : file.getAbsolutePath();
+	}
+
+	private File getJarFile(String clazz) {
+		for (File file : roots2Classes.keySet()) {
+			if (roots2Classes.get(file).contains(clazz)) return file;
+		}
+		return null;
 	}
 
 }

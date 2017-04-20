@@ -30,6 +30,10 @@ public class Name {
     public void setColor(String color) {
 		this.color = color;
 	}
+    public Name setFrom(File from) {
+		this.from = from;
+		return this;
+	}
 
     public String getColor() {
 		return color;
