@@ -11,15 +11,17 @@ import org.freejava.dependency.model.Vertex;
 
 public class RemoveNodesGraphTransformerImpl<T> implements GraphTransformer<T> {
     private Collection<Vertex<T>> deletedNodes;
-    public RemoveNodesGraphTransformerImpl(Collection<Vertex<T>> deletedNodes) {
+    private Collection<Edge<T>> deletedEdges;
+    public RemoveNodesGraphTransformerImpl(Collection<Vertex<T>> deletedNodes, Collection<Edge<T>> deletedEdges) {
         this.deletedNodes = deletedNodes;
+        this.deletedEdges = deletedEdges;
     }
     public Graph<T> transform(Graph<T> graph) {
 
 
         Set<Edge<T>> edges = new HashSet<Edge<T>>();
         for (Edge<T> edge : graph.getEdges()) {
-            if (!deletedNodes.contains(edge.getFrom()) && !deletedNodes.contains(edge.getTo())) {
+            if (!deletedEdges.contains(edge) && !deletedNodes.contains(edge.getFrom()) && !deletedNodes.contains(edge.getTo())) {
                 edges.add(edge);
             }
         }

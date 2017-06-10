@@ -15,6 +15,7 @@ import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 import org.freejava.dependency.graphtransformer.impl.RemoveNodesGraphTransformerImpl;
+import org.freejava.dependency.model.Edge;
 import org.freejava.dependency.model.Graph;
 import org.freejava.dependency.model.Name;
 import org.freejava.dependency.model.Vertex;
@@ -48,18 +49,18 @@ public class DependencyView extends ViewPart {
                 if (e.keyCode == SWT.DEL) {
                     ISelection selection = viewer.getSelection();
                     List<Object> selectedItems = ((IStructuredSelection) selection).toList();
-                    List<Vertex<Name>> selectedPackages = new ArrayList<Vertex<Name>>();
+                    List<Vertex<Name>> deletedNodes = new ArrayList<Vertex<Name>>();
+                    List<Edge<Name>> selectedEdges = new ArrayList<Edge<Name>>();
                     for (Object selectedItem : selectedItems) {
                         if (selectedItem instanceof Vertex) {
-                            selectedPackages.add((Vertex<Name>) selectedItem);
+                        	deletedNodes.add((Vertex<Name>) selectedItem);
                         } else {
                             Object[] selectedArrow = (Object[]) selectedItem;
-                            selectedPackages.add((Vertex<Name>) selectedArrow[0]);
-                            selectedPackages.add((Vertex<Name>) selectedArrow[1]);
+                        	selectedEdges.add(new Edge<Name>((Vertex<Name>) selectedArrow[0], (Vertex<Name>) selectedArrow[1]));
                         }
                     }
 
-                    Graph<Name> pkgs = new RemoveNodesGraphTransformerImpl<Name>(selectedPackages).transform((Graph<Name>) input);
+                    Graph<Name> pkgs = new RemoveNodesGraphTransformerImpl<Name>(deletedNodes, selectedEdges).transform((Graph<Name>) input);
 
                     setDependencyInfo(pkgs);
                 }
