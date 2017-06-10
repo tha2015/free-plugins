@@ -1,17 +1,18 @@
 package org.freejava.dependency.model;
 
+import java.util.Map;
 import java.util.Set;
 
 public class ClassInfo {
     private String className;
     private Set<String> dependencies;
-    private Set<String> interfaces;
+    private Map<String, Integer> types;
 
-    public ClassInfo(String className, Set<String> dependencies, Set<String> interfaces) {
+    public ClassInfo(String className, Set<String> dependencies, Map<String, Integer> types) {
         super();
         this.className = className;
         this.dependencies = dependencies;
-        this.interfaces = interfaces;
+        this.types = types;
     }
 
     public String getClassName() {
@@ -24,13 +25,13 @@ public class ClassInfo {
     }
 
 
-    public Set<String> getInterfaces() {
-        return interfaces;
+    public Map<String, Integer> getTypes() {
+        return types;
     }
 
 
     @Override
     public String toString() {
-        return "this: " + className + "; others: " + dependencies + "; interfaces: " + interfaces;
+        return "this: " + className + "; others: " + dependencies + "; types: " + types;
     }
 }

@@ -28,8 +28,26 @@ public class ClassGraphBuilderImpl implements GraphBuilder<Name> {
 
         // initialize interfaces
         for (ClassInfo classInfo : classInfos.keySet()) {
-            for (String interfaceName : classInfo.getInterfaces()) {
-                classToVertex.put(interfaceName, new Vertex<Name>(Name.newInterface(interfaceName, className2File.get(interfaceName))));
+            for (String name : classInfo.getTypes().keySet()) {
+            	Integer type = classInfo.getTypes().get(name);
+            	Name nameObj;
+            	switch (type.intValue()) {
+            	case Name.CLASS_VAL:
+            		nameObj = Name.newClass(name, className2File.get(name));
+            		break;
+            	case Name.INTERFACE_VAL:
+            		nameObj = Name.newInterface(name, className2File.get(name));
+            		break;
+            	case Name.ANNOTATION_VAL:
+            		nameObj = Name.newAnnotation(name, className2File.get(name));
+            		break;
+            	case Name.ENUM_VAL:
+            		nameObj = Name.newEnum(name, className2File.get(name));
+            		break;
+            	default:
+            		throw new IllegalArgumentException("Unknown type:" + type);
+            	}
+                classToVertex.put(name, new Vertex<Name>(nameObj));
             }
         }
 

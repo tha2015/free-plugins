@@ -1,7 +1,8 @@
 package org.freejava.dependency.classparser.impl;
 
 import java.io.InputStream;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.maven.shared.dependency.analyzer.asm.DefaultAnnotationVisitor;
@@ -18,7 +19,7 @@ import org.objectweb.asm.signature.SignatureVisitor;
 
 public final class MyDependencyClassFileVisitor  {
     private String className;
-    private Set<String> interfaces;
+    private Map<String, Integer> types;
     private final ResultCollector resultCollector = new ResultCollector();
 
     public void visitClass(InputStream in ) throws Exception {
@@ -31,10 +32,11 @@ public final class MyDependencyClassFileVisitor  {
         reader.accept( classVisitor, 0 );
 
         this.className = Type.getObjectType(classVisitor.getName()).getClassName();
-        this.interfaces = new HashSet<String>();
-        for (String interf : classVisitor.getInterfaces()) {
-            this.interfaces.add(Type.getObjectType(interf).getClassName());
+        this.types = new HashMap<String, Integer>();
+        for (String interf : classVisitor.getTypes().keySet()) {
+            this.types.put(Type.getObjectType(interf).getClassName(), classVisitor.getTypes().get(interf));
         }
+
 
     }
 
@@ -44,8 +46,8 @@ public final class MyDependencyClassFileVisitor  {
     }
 
 
-    public Set<String> getInterfaces() {
-        return interfaces;
+    public Map<String, Integer> getTypes() {
+        return types;
     }
 
 

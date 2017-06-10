@@ -5,8 +5,14 @@ import java.io.File;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Name {
+	public static final int CLASS_VAL = 0;
+	public static final int INTERFACE_VAL = 1;
+	public static final int PACKAGE_VAL = 2;
+	public static final int ANNOTATION_VAL = 3;
+	public static final int ENUM_VAL = 4;
+
     private String name;
-    private int type; // 0-  class, 1 - interface, 2 - package
+    private int type;
     private String color;
     private File from;
 
@@ -14,9 +20,11 @@ public class Name {
     public String getName() {
         return name;
     }
-    public boolean isClass() { return type == 0; }
-    public boolean isInterface() { return type == 1; }
-    public boolean isPackage() { return type == 2; }
+    public boolean isClass() { return type == CLASS_VAL; }
+    public boolean isInterface() { return type == INTERFACE_VAL; }
+    public boolean isPackage() { return type == PACKAGE_VAL; }
+    public boolean isAnnotation() { return type == ANNOTATION_VAL; }
+    public boolean isEnum() { return type == ENUM_VAL; }
 
     private static Name newName(String name, int type, String color, File from) {
         Name result = new Name();
@@ -54,13 +62,19 @@ public class Name {
     }
 
     public static Name newClass(String name, File from) {
-        return newName(name, 0, null, from);
+        return newName(name, CLASS_VAL, null, from);
     }
     public static Name newInterface(String name, File from) {
-        return newName(name, 1, null, from);
+        return newName(name, INTERFACE_VAL, null, from);
+    }
+    public static Name newAnnotation(String name, File from) {
+        return newName(name, ANNOTATION_VAL, null, from);
+    }
+    public static Name newEnum(String name, File from) {
+        return newName(name, ENUM_VAL, null, from);
     }
     public static Name newPackage(String name) {
-        return newName(name, 2, null, null);
+        return newName(name, PACKAGE_VAL, null, null);
     }
     public static Name newName(Name name) {
         return newName(name.name, name.type, name.color, name.from);
@@ -69,6 +83,24 @@ public class Name {
 
     @Override
     public String toString() {
-        return name + (isInterface() ? "(I)" : "");
+    	String typeStr = "";
+    	switch (type) {
+    	case CLASS_VAL:
+    		typeStr = "";
+    		break;
+    	case PACKAGE_VAL:
+    		typeStr = "";
+    		break;
+    	case INTERFACE_VAL:
+    		typeStr = "(I)";
+    		break;
+    	case ANNOTATION_VAL:
+    		typeStr = "(@)";
+    		break;
+    	case ENUM_VAL:
+    		typeStr = "(E)";
+    		break;
+    	}
+        return name + typeStr;
     }
 }

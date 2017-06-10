@@ -56,11 +56,15 @@ public class Activator extends AbstractUIPlugin {
 	protected void initializeImageRegistry(ImageRegistry registry) {
 	        super.initializeImageRegistry(registry);
 	        Image classImage = Activator.getImageDescriptor("/icons/class_obj.gif").createImage();
-                Image interfaceImage = Activator.getImageDescriptor("/icons/int_obj.gif").createImage();
+            Image interfaceImage = Activator.getImageDescriptor("/icons/int_obj.gif").createImage();
 	        Image packageImage = Activator.getImageDescriptor("/icons/package_obj.gif").createImage();
+	        Image annotationImage = Activator.getImageDescriptor("/icons/annotation_obj.png").createImage();
+	        Image enumImage = Activator.getImageDescriptor("/icons/enum_obj.png").createImage();
 	        registry.put("class", classImage);
 	        registry.put("interface", interfaceImage);
-                registry.put("package", packageImage);
+            registry.put("package", packageImage);
+            registry.put("annotation", annotationImage);
+            registry.put("enum", enumImage);
 	}
 
 	/**

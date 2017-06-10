@@ -21,6 +21,10 @@ public class MyLabelProvider extends LabelProvider implements org.eclipse.zest.c
                 image = Activator.getDefault().getImageRegistry().get("class");
             } else if (node.getNode().isInterface()) {
                     image = Activator.getDefault().getImageRegistry().get("interface");
+            } else if (node.getNode().isAnnotation()) {
+                image = Activator.getDefault().getImageRegistry().get("annotation");
+            } else if (node.getNode().isEnum()) {
+                image = Activator.getDefault().getImageRegistry().get("enum");
             } else {
                 image = Activator.getDefault().getImageRegistry().get("package");
             }

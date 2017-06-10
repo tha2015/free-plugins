@@ -1,11 +1,11 @@
 package org.freejava.dependency.classparser.impl;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.maven.shared.dependency.analyzer.asm.DefaultClassVisitor;
 import org.apache.maven.shared.dependency.analyzer.asm.ResultCollector;
+import org.freejava.dependency.model.Name;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -14,7 +14,7 @@ import org.objectweb.asm.signature.SignatureVisitor;
 
 public class MyDefaultClassVisitor extends DefaultClassVisitor {
     private String name;
-    private Set<String> interfaces = new HashSet<String>();
+    private Map<String, Integer> types = new HashMap<String, Integer>();
 
     public MyDefaultClassVisitor(SignatureVisitor signatureVisitor, AnnotationVisitor annotationVisitor, FieldVisitor fieldVisitor, MethodVisitor methodVisitor, ResultCollector resultCollector) {
         super(signatureVisitor, annotationVisitor, fieldVisitor, methodVisitor, resultCollector);
@@ -24,18 +24,29 @@ public class MyDefaultClassVisitor extends DefaultClassVisitor {
         super.visit(version, access, name, signature, superName, interfaces);
 
         this.name = name;
+
         if (interfaces!= null && interfaces.length > 0) {
-            this.interfaces.addAll(Arrays.asList(interfaces));
+            for (String interfaceName: interfaces) {
+                this.types.put(interfaceName, Name.INTERFACE_VAL);
+            }
         }
-        if ((access & Opcodes.ACC_INTERFACE) != 0) {
-            this.interfaces.add(name);
+        if ((access & Opcodes.ACC_ANNOTATION) != 0) {
+            this.types.put(name, Name.ANNOTATION_VAL);
+        } else if ((access & Opcodes.ACC_ENUM) != 0) {
+            this.types.put(name, Name.ENUM_VAL);
+        } else if ((access & Opcodes.ACC_INTERFACE) != 0) {
+            this.types.put(name, Name.INTERFACE_VAL);
+        } else {
+            this.types.put(name, Name.CLASS_VAL);
         }
     }
+
     public String getName() {
         return name;
     }
-    public Set<String> getInterfaces() {
-        return interfaces;
+
+    public Map<String, Integer> getTypes() {
+        return types;
     }
 
 }
