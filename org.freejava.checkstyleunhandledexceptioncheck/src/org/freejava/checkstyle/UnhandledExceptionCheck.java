@@ -7,15 +7,25 @@ import java.util.List;
 
 import antlr.collections.AST;
 
-import com.puppycrawl.tools.checkstyle.api.Check;
+import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
-public class UnhandledExceptionCheck extends Check {
+public class UnhandledExceptionCheck extends AbstractCheck {
 
 	@Override
 	public int[] getDefaultTokens() {
 		return new int[] { TokenTypes.LITERAL_CATCH };
+	}
+
+	@Override
+	public int[] getRequiredTokens() {
+		return getDefaultTokens();
+	}
+
+	@Override
+	public int[] getAcceptableTokens() {
+		return getDefaultTokens();
 	}
 
 	public void visitToken(DetailAST ast) {

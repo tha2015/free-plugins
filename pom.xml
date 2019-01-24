@@ -21,6 +21,7 @@
     <module>org.freejava.projectimpport</module>
     <module>org.freejava.projectimpport.feature</module>
      -->
+	<module>org.freejava.checkstyleunhandledexceptioncheck</module>
     <module>org.freejava.plugins.repository</module>
   </modules>
 
