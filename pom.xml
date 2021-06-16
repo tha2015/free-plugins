@@ -8,20 +8,24 @@
   <packaging>pom</packaging>
 
   <modules>
+    <!--
     <module>org.freejava.javasourceattacher</module>
     <module>org.freejava.javasourceattacher.feature</module>
     <module>org.freejava.javaexamplessearch</module>
     <module>org.freejava.javaexamplessearch.feature</module>
+    -->
     <module>org.freejava.dependencyviewer</module>
-    <module>org.freejava.dependencyviewer.tests</module>
     <module>org.freejava.dependencyviewer.feature</module>
     <!--
+    <module>org.freejava.dependencyviewer.tests</module>
+
     <module>org.freejava.windowstools</module>
     <module>org.freejava.windowstools.feature</module>
     <module>org.freejava.projectimpport</module>
     <module>org.freejava.projectimpport.feature</module>
-     -->
-	<module>org.freejava.checkstyleunhandledexceptioncheck</module>
+     
+  <module>org.freejava.checkstyleunhandledexceptioncheck</module>
+  -->
     <module>org.freejava.plugins.repository</module>
   </modules>
 

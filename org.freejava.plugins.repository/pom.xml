@@ -10,7 +10,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <tycho-version>0.22.0</tycho-version>
+    <tycho-version>2.3.0</tycho-version>
   </properties>
 
 
@@ -77,12 +77,12 @@
     <repository>
       <id>luna</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/eclipse/updates/4.4</url>
+      <url>http://download.eclipse.org/eclipse/updates/4.19</url>
     </repository>
     <repository>
       <id>zest</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</url>
+      <url>https://download.eclipse.org/releases/latest/</url>
     </repository>
   </repositories>
 </project>

@@ -61,7 +61,7 @@
     <repository>
       <id>zest</id>
       <layout>p2</layout>
-      <url>https://download.eclipse.org/tools/gef/updates/legacy/releases/</url>
+      <url>https://download.eclipse.org/releases/latest/</url>
     </repository>
   </repositories>
 </project>

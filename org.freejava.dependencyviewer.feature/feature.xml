@@ -26,7 +26,7 @@ Eclipse.
    </license>
 
    <url>
-      <update url="https://dl.bintray.com/tha/eclipserepo/"/>
+      <update url="https://tha2015.jfrog.io/artifactory/p2-generic-local/viewer/repo/"/>
    </url>
 
    <requires>
