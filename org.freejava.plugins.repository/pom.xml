@@ -31,7 +31,7 @@
           <target>1.6</target>
         </configuration>
       </plugin>
-      <plugin>
+<!--       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <version>1.8</version>
         <executions>
@@ -40,7 +40,7 @@
             <configuration>
               <target>
 		
-		<!-- Unzip the content.jar -->
+
 		<unzip dest="${project.build.directory}/unzipped" src="${project.build.directory}/repository/content.jar" />
 		<replace file="${project.build.directory}/unzipped/content.xml">
 			<replacetoken><![CDATA[</repository>]]></replacetoken>
@@ -52,7 +52,7 @@
 </repository>]]></replacevalue>
 		</replace>
 		<delete file="${project.build.directory}/repository/content.jar" />
-		<!-- Re-zip content.xml into content.jar -->
+		Re-zip content.xml into content.jar
 		<zip destfile="${project.build.directory}/repository/content.jar">
 			<zipfileset dir="${project.build.directory}/unzipped">
 				<include name="content.xml" />
@@ -67,7 +67,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin> -->
 
 
     </plugins>
