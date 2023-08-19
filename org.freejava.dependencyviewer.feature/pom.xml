@@ -4,12 +4,12 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.freejava</groupId>
   <artifactId>org.freejava.dependencyviewer.feature</artifactId>
-  <version>1.0.0.11</version>
+  <version>1.0.0.12</version>
   <packaging>eclipse-feature</packaging>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <tycho-version>2.3.0</tycho-version>
+    <tycho-version>4.0.1</tycho-version>
   </properties>
 
   <build>
@@ -25,7 +25,6 @@
         <artifactId>target-platform-configuration</artifactId>
         <version>${tycho-version}</version>
         <configuration>
-          <resolver>p2</resolver>
           <pomDependencies>consider</pomDependencies>
           <environments>
             <environment>
@@ -58,7 +57,7 @@
     <repository>
       <id>luna</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/eclipse/updates/4.19</url>
+      <url>http://download.eclipse.org/eclipse/updates/4.28</url>
     </repository>
     <repository>
       <id>zest</id>

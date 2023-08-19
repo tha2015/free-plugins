@@ -10,7 +10,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <tycho-version>2.3.0</tycho-version>
+    <tycho-version>4.0.1</tycho-version>
   </properties>
 
 
@@ -27,8 +27,8 @@
         <artifactId>tycho-compiler-plugin</artifactId>
         <version>${tycho-version}</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
 <!--       <plugin>
@@ -39,7 +39,7 @@
             <phase>package</phase>
             <configuration>
               <target>
-		
+
 
 		<unzip dest="${project.build.directory}/unzipped" src="${project.build.directory}/repository/content.jar" />
 		<replace file="${project.build.directory}/unzipped/content.xml">
@@ -59,7 +59,7 @@
 			</zipfileset>
 		</zip>
 		<delete file="${project.build.directory}/unzipped/content.xml" />
-		
+
               </target>
             </configuration>
             <goals>
@@ -75,9 +75,9 @@
 
   <repositories>
     <repository>
-      <id>luna</id>
+      <id>eclipse</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/eclipse/updates/4.19</url>
+      <url>https://download.eclipse.org/eclipse/updates/4.28</url>
     </repository>
     <repository>
       <id>zest</id>

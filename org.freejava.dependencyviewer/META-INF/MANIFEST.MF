@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Java Dependency Viewer Plug-in
 Bundle-SymbolicName: org.freejava.dependencyviewer;singleton:=true
-Bundle-Version: 1.0.11
+Bundle-Version: 1.0.12
 Bundle-Activator: org.freejava.tools.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -12,14 +12,14 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.zest.layouts;resolution:=optional
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-ClassPath: lib/asm-8.0.1.jar,
- lib/commons-io-2.6.jar,
+Bundle-ClassPath: lib/asm-9.5.jar,
+ lib/commons-io-2.13.0.jar,
  lib/commons-lang3-3.8.1.jar,
  lib/commons-logging-1.2.jar,
- lib/maven-dependency-analyzer-1.11.3.jar,
+ lib/maven-dependency-analyzer-1.13.2.jar,
  lib/json-lib-2.4-jdk15.jar,
  lib/guava-18.0.jar,
- lib/commons-collections-3.2.1.jar,
+ lib/commons-collections-3.2.2.jar,
  lib/ezmorph-1.0.6.jar,
  lib/commons-beanutils-1.8.3.jar,
  lib/commons-lang-2.6.jar,
