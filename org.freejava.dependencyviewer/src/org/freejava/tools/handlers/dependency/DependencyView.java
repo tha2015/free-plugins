@@ -46,7 +46,7 @@ public class DependencyView extends ViewPart {
                 if (input == null || !(input instanceof Graph)) return;
 
 
-                if (e.keyCode == SWT.DEL) {
+                if (e.keyCode == SWT.DEL || e.keyCode == SWT.BS) {
                     ISelection selection = viewer.getSelection();
                     List<Object> selectedItems = ((IStructuredSelection) selection).toList();
                     List<Vertex<Name>> deletedNodes = new ArrayList<Vertex<Name>>();
