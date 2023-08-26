@@ -31,7 +31,7 @@
           <target>1.8</target>
         </configuration>
       </plugin>
-<!--       <plugin>
+      <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <version>1.8</version>
         <executions>
@@ -46,11 +46,12 @@
 			<replacetoken><![CDATA[</repository>]]></replacetoken>
 			<replacevalue><![CDATA[
 <references size="2">
-<repository options="1" type="0" uri="http://download.eclipse.org/tools/gef/updates/legacy/releases/" url="http://download.eclipse.org/tools/gef/updates/legacy/releases/"/>
-<repository options="1" type="1" uri="http://download.eclipse.org/tools/gef/updates/legacy/releases/" url="http://download.eclipse.org/tools/gef/updates/legacy/releases/"/>
+<repository options="1" type="0" uri="https://download.eclipse.org/tools/gef/classic/releases/latest/" url="https://download.eclipse.org/tools/gef/classic/releases/latest/"/>
+<repository options="1" type="1" uri="https://download.eclipse.org/tools/gef/classic/releases/latest/" url="https://download.eclipse.org/tools/gef/classic/releases/latest/"/>
 </references>
 </repository>]]></replacevalue>
 		</replace>
+		
 		<delete file="${project.build.directory}/repository/content.jar" />
 		Re-zip content.xml into content.jar
 		<zip destfile="${project.build.directory}/repository/content.jar">
@@ -67,7 +68,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin> -->
+      </plugin>
 
 
     </plugins>
